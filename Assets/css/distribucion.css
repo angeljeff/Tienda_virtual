@@ -1,0 +1,89 @@
+.cmn{
+    width: 100%;
+    height: 580px;
+    position: relative;
+ }
+
+#map { 
+    width: 100%;
+    height: 580px;
+    box-shadow: 5px 5px 5px #888;
+    position: relative;
+    z-index: 4;  
+ }
+
+ .leaflet-tooltip.my-labels {
+    background-color: transparent;
+    border: transparent;
+    box-shadow: none;
+    font-weight: 900;
+    font-size: 22px;
+    margin-top: 1em;  
+    }
+ 
+
+ .nada { 
+    width: 100%;
+    height: 580px;
+    background-color: rgba(85, 85, 93, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 10;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    
+ }
+
+ .texto_aviso{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgb(235, 237, 239);
+
+ }
+
+ .aviso{
+    text-align: center;
+    font-size: 2.5em;
+ }
+
+ .nada.mostrar_m{
+    display: flex;
+ }
+
+
+
+
+.botonaviso{
+    width: 70px;
+    height: 34px;
+    font-size: 1.2em;
+    font-weight: 800;
+    border-radius: 3px;
+    color: rgb(17, 19, 20);
+    border: 2px solid  #20c997;
+    background-color: #c6fef8;
+
+}
+
+.botonaviso:hover{
+
+    background-color: #54a199;
+    color: aliceblue;
+
+}
+
+
+
+    @media only screen  and (max-width:520px){
+      .letras_tama{
+          font-size: 16px;
+      }
+
+  }
