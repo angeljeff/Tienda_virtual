@@ -1,4 +1,6 @@
-<?php headerAdmin($data); ?>
+<?php headerAdmin($data);
+  getModal('modalOrden',$data); ?>
+
 <main class="app-content">
   <div class="app-title">
     <div>
@@ -20,14 +22,13 @@
             $cliente = $data['arrPedido']['cliente']; 
             $orden = $data['arrPedido']['orden'];
             $detalle = $data['arrPedido']['detalle'];
-            $transaccion = $orden['idtransaccionpaypal'] != "" ? 
-                           $orden['idtransaccionpaypal'] : 
-                           $orden['referenciacobro'];
+            $transaccion =  $orden['referenciacobro'];
          ?>
         <section id="sPedido" class="invoice">
           <div class="row mb-4">
             <div class="col-6">
-              <h2 class="page-header"><img src="<?= media(); ?>/tienda/images/logo.png" ></h2>
+              <img class="logo-orden" src="<?= media(); ?>/tienda/images/logo.png" >
+              <input id="campoimagen" type="text" value="<?= $orden['imagen'] ?>" hidden>
             </div>
             <div class="col-6">
               <h5 class="text-right">Fecha: <?= $orden['fecha'] ?></h5>
@@ -50,7 +51,8 @@
                </address>
             </div>
             <div class="col-4"><b>Orden #<?= $orden['idpedido'] ?></b><br> 
-                <b>Pago: </b><?= $orden['tipopago'] ?><br>
+                <b>Pago: </b><?= $orden['tipopago']  ?> 
+                <?php if($orden['tipopago']=="Despósito Bancario") { ?><i class="fa-solid fa-eye ojo"></i> <?php } ?><br>
                 <b>Transacción:</b> <?= $transaccion ?> <br>
                 <b>Estado:</b> <?= $orden['status'] ?> <br>
                 <b>Monto:</b> <?= SMONEY.' '. formatMoney($orden['monto']) ?>
@@ -111,4 +113,20 @@
     </div>
   </div>
 </main>
+<script>
+
+
+  if(document.querySelector(".ojo")){
+
+    let ojo = document.querySelector(".ojo");
+      ojo.addEventListener('click', function(){
+        var imagen = document.querySelector("#campoimagen").value;
+        document.getElementById("image").src=base_url+"/"+imagen;
+        $('#modalOrden').modal('show');      
+  });  
+  
+  };
+ 
+ 
+</script>
 <?php footerAdmin($data); ?>

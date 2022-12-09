@@ -189,7 +189,7 @@ if(document.querySelector(".methodpago")){
 	let optmetodo = document.querySelectorAll(".methodpago");
     optmetodo.forEach(function(optmetodo) {
         optmetodo.addEventListener('click', function(){
-        	if(this.value == "Paypal"){
+        	if(this.value == 2){
         		document.querySelector("#divpaypal").classList.remove("notblock");
         		document.querySelector("#divtipopago").classList.add("notblock");
         	}else{
@@ -275,17 +275,18 @@ function fntUpdateCant(pro,cant){
 }
 
 if(document.querySelector("#txtDireccion")){
-	let direccion = document.querySelector("#txtDireccion");
-	direccion.addEventListener('keyup', function(){
+	let dire = document.querySelector("#txtDireccion");
+	dire.addEventListener('keyup', function(){
 		let dir = this.value;
 		fntViewPago();
+		
 	});
 }
 
-if(document.querySelector("#txtCiudad")){
-	let ciudad = document.querySelector("#txtCiudad");
-	ciudad.addEventListener('keyup', function(){
-		let c = this.value;
+if(document.querySelector("#txtreferencia")){
+	let referencia = document.querySelector("#txtreferencia");
+	referencia.addEventListener('keyup', function(){
+		let ref = this.value;
 		fntViewPago();
 	});
 }
@@ -303,45 +304,149 @@ if(document.querySelector("#condiciones")){
 }
 
 function fntViewPago(){
-	let direccion = document.querySelector("#txtDireccion").value;
-	let ciudad = document.querySelector("#txtCiudad").value;
-	if(direccion == "" || ciudad == ""){
+	let direccionne = document.querySelector("#txtDireccion").value;
+	let referencia = document.querySelector("#txtreferencia").value;
+	if(direccionne== "" || referencia == ""){
 		document.querySelector('#divMetodoPago').classList.add("notblock");
 	}else{
 		document.querySelector('#divMetodoPago').classList.remove("notblock");
 	}
 }
 
+
+// obtener la ubicacion 
+if(document.querySelector("#btnUbicacion")){
+let btnubicacion = document.querySelector("#btnUbicacion");
+btnubicacion.addEventListener('click',function() { 
+	var latitud = document.querySelector("#latitud");
+	var longitud = document.querySelector("#longitud");
+	if (navigator.geolocation){ //check geolocation available 
+		
+        //try to get user current location using getCurrentPosition() method
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    }else{
+        swal("", "Necesita permitir acceder a su ubicación para una entrega más exacta" , "error");
+    }	
+
+},false);
+}
+
+
+function successCallback(position) {
+	latitud.value = position.coords.latitude;
+	longitud.value= position.coords.longitude;
+
+}
+
+function errorCallback(error) {
+	// Check for known errors
+	switch (error.code) {
+		case error.PERMISSION_DENIED:
+			swal("", "Necesita permitir el acceso a su ubicación" , "error");
+
+			break;
+		case error.POSITION_UNAVAILABLE:
+			swal("", "La ubicación no está disponible en este momento" , "error");
+
+			break;
+		case error.TIMEOUT:
+			swal("", "La ubicación no pudo ser determinada intenta en otro momento" , "error");
+
+			break;
+		default:
+			break;
+	}
+}
+
+
+
+
+
+
+
+
 if(document.querySelector("#btnComprar")){
 	let btnPago = document.querySelector("#btnComprar");
 	btnPago.addEventListener('click',function() { 
+		let inttipopago;
+		ruta="";
+		contenidoimagen="";
+		nombrearchivo="";
 		let dir = document.querySelector("#txtDireccion").value;
-	    let ciudad = document.querySelector("#txtCiudad").value;
-	    let inttipopago = document.querySelector("#listtipopago").value; 
-	    if( txtDireccion == "" || txtCiudad == "" || inttipopago =="" ){
+	    let referencia = document.querySelector("#txtreferencia").value;
+	    let tipopago = document.querySelector("#contraentrega");
+		let latitud = document.querySelector("#latitud").value;
+	    let longitud = document.querySelector("#longitud").value;
+		let ciu = document.querySelector("#ciudad").value;
+		let imagen = document.querySelector("#image").value;
+
+		if (tipopago.checked == true){ inttipopago=2; }else{ inttipopago=5;}
+
+		
+	    if( dir == "" || referencia == "" || inttipopago =="" ){
+			
 			swal("", "Complete datos de envío" , "error");
 			return;
-		}else{
+		}
+		else if(inttipopago == 5 && (imagen == "" || imagen == null)){
+			swal("", "Necesita subir el comprobante de pago" , "error");
+			return;
+
+		}
+
+
+		else if(latitud == "" || longitud == ""){
+			swal("", "Necesita proveer su ubicación para la entrega" , "error");
+			return;
+		}
+		else{
+			
+			if(imagen!=""){
+				ruta= imagen.split("\\")
+				console.log("ruta",ruta)
+				let position = (ruta.length)-1
+				nombreimagen= ruta[position]
+				console.log("nombreimagen",nombreimagen)
+	
+				let fech = Date.now();
+				nombrearchivo=fech+"_"+nombreimagen;
+				console.log("nombre",nombrearchivo)
+	
+				contenidoimagen= document.querySelector("#image").files[0];
+				
+
+			}
+			
 			divLoading.style.display = "flex";
+			
 			let request = (window.XMLHttpRequest) ? 
 	                    new XMLHttpRequest() : 
 	                    new ActiveXObject('Microsoft.XMLHTTP');
 			let ajaxUrl = base_url+'/Tienda/procesarVenta';
 			let formData = new FormData();
 		    formData.append('direccion',dir);    
-		   	formData.append('ciudad',ciudad);
+		   	formData.append('referencia',referencia);
 			formData.append('inttipopago',inttipopago);
+			formData.append('ciudad',ciu);
+			formData.append('latitud',latitud);
+			formData.append('longitud',longitud);
+			formData.append('imagen',nombrearchivo);
+			formData.append('contenidoimagen',contenidoimagen);
 		   	request.open("POST",ajaxUrl,true);
 		    request.send(formData);
+			console.log("ssssssssssssssssssssssssssssssssssssssssss")
 		    request.onreadystatechange = function(){
 		    	if(request.readyState != 4) return;
 		    	if(request.status == 200){
+					console.log(request.responseText)
 		    		let objData = JSON.parse(request.responseText);
 		    		if(objData.status){
 		    			window.location = base_url+"/tienda/confirmarpedido/";
 		    		}else{
 		    			swal("", objData.msg , "error");
 		    		}
+					
+
 		    	}
 		    	divLoading.style.display = "none";
             	return false;
@@ -445,3 +550,8 @@ if(document.querySelector("#frmContacto")){
 
 	},false);
 }
+
+
+
+
+

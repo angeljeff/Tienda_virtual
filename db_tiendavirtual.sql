@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2022 a las 06:14:49
+-- Tiempo de generación: 09-12-2022 a las 02:51:50
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.1
 
@@ -99,7 +99,13 @@ INSERT INTO `detalle_pedido` (`id`, `pedidoid`, `productoid`, `precio`, `cantida
 (10, 7, 3, '300.00', 2),
 (11, 8, 3, '300.00', 1),
 (12, 9, 4, '15.00', 1),
-(13, 10, 7, '10.00', 1);
+(13, 10, 7, '10.00', 1),
+(14, 11, 5, '12.00', 1),
+(15, 12, 1, '100.00', 1),
+(16, 13, 4, '15.00', 1),
+(17, 14, 5, '12.00', 1),
+(18, 15, 4, '15.00', 1),
+(19, 16, 5, '12.00', 1);
 
 -- --------------------------------------------------------
 
@@ -189,30 +195,41 @@ INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
 CREATE TABLE `pedido` (
   `idpedido` bigint(20) NOT NULL,
   `referenciacobro` varchar(255) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
-  `idtransaccionpaypal` varchar(255) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
-  `datospaypal` text COLLATE utf8mb4_swedish_ci DEFAULT NULL,
+  `latitud` varchar(25) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
+  `longitud` varchar(25) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
+  `referencia` varchar(255) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
   `personaid` bigint(20) NOT NULL,
   `fecha` datetime NOT NULL DEFAULT current_timestamp(),
   `costo_envio` decimal(10,2) NOT NULL DEFAULT 0.00,
   `monto` decimal(11,2) NOT NULL,
   `tipopagoid` bigint(20) NOT NULL,
   `direccion_envio` text COLLATE utf8mb4_swedish_ci NOT NULL,
-  `status` varchar(100) COLLATE utf8mb4_swedish_ci DEFAULT NULL
+  `status` varchar(100) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
+  `imagen` varchar(255) COLLATE utf8mb4_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `pedido`
 --
 
-INSERT INTO `pedido` (`idpedido`, `referenciacobro`, `idtransaccionpaypal`, `datospaypal`, `personaid`, `fecha`, `costo_envio`, `monto`, `tipopagoid`, `direccion_envio`, `status`) VALUES
-(3, 'jftygjmhbbvgh', NULL, NULL, 10, '2022-11-23 23:20:01', '5.00', '77.00', 2, 'samborondon 5555, sambo', 'Entregado'),
-(4, NULL, NULL, NULL, 10, '2022-11-23 23:47:35', '5.00', '125.00', 2, 'sambo, rondon', 'Pendiente'),
-(5, NULL, NULL, NULL, 10, '2022-11-24 00:02:26', '5.00', '155.00', 2, 'Ciudad de duran, guayas', 'Pendiente'),
-(6, NULL, NULL, NULL, 11, '2022-11-24 14:27:04', '5.00', '32.00', 2, 'Guasmo sur, los estribos, Guayaquil', 'Pendiente'),
-(7, NULL, NULL, NULL, 10, '2022-11-24 14:37:19', '5.00', '605.00', 2, 'Rttf, Gggg', 'Pendiente'),
-(8, '77', NULL, NULL, 11, '2022-12-04 20:41:19', '5.00', '305.00', 2, 'samborondon, 0090802', 'Aprobado'),
-(9, NULL, NULL, NULL, 11, '2022-12-04 21:19:23', '5.00', '20.00', 2, 'paraiso, 0090802', 'Pendiente'),
-(10, NULL, NULL, NULL, 15, '2022-12-04 21:30:05', '5.00', '15.00', 2, 'Ciudad de duran, 0090802', 'Pendiente');
+INSERT INTO `pedido` (`idpedido`, `referenciacobro`, `latitud`, `longitud`, `referencia`, `personaid`, `fecha`, `costo_envio`, `monto`, `tipopagoid`, `direccion_envio`, `status`, `imagen`) VALUES
+(3, NULL, 'jftygjmhbbvgh', NULL, NULL, 10, '2022-11-23 23:20:01', '5.00', '77.00', 2, 'samborondon 5555, sambo', 'Entregado', ''),
+(4, NULL, NULL, NULL, NULL, 10, '2022-11-23 23:47:35', '5.00', '125.00', 2, 'sambo, rondon', 'Pendiente', ''),
+(5, NULL, NULL, NULL, NULL, 10, '2022-11-24 00:02:26', '5.00', '155.00', 2, 'Ciudad de duran, guayas', 'Pendiente', ''),
+(6, NULL, NULL, NULL, NULL, 11, '2022-11-24 14:27:04', '5.00', '32.00', 2, 'Guasmo sur, los estribos, Guayaquil', 'Pendiente', ''),
+(7, NULL, NULL, NULL, NULL, 10, '2022-11-24 14:37:19', '5.00', '605.00', 2, 'Rttf, Gggg', 'Pendiente', ''),
+(8, NULL, '77', NULL, NULL, 11, '2022-12-04 20:41:19', '5.00', '305.00', 2, 'samborondon, 0090802', 'Aprobado', ''),
+(9, NULL, NULL, NULL, NULL, 11, '2022-12-04 21:19:23', '5.00', '20.00', 2, 'paraiso, 0090802', 'Pendiente', ''),
+(10, NULL, NULL, NULL, NULL, 15, '2022-12-04 21:30:05', '5.00', '15.00', 2, 'Ciudad de duran, 0090802', 'Pendiente', ''),
+(11, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:09:20', '5.00', '17.00', 2, 'ddddd, 2322422422', 'Pendiente', ''),
+(12, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:14:13', '5.00', '105.00', 2, 'guasmo, guayaqul', 'Pendiente', ''),
+(13, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:40:10', '5.00', '20.00', 2, 'ccc, guayaquil', 'Pendiente', ''),
+(14, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:53:09', '5.00', '17.00', 2, 'aaa, ddddddd', 'Pendiente', ''),
+(15, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:55:15', '5.00', '20.00', 2, 'dfddddd, wwwwwwwww', 'Pendiente', ''),
+(16, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:56:42', '5.00', '17.00', 2, 'hola, guayaquil', 'Pendiente', ''),
+(17, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:58:53', '5.00', '32.00', 2, 'fff, e3eee', 'Pendiente', ''),
+(18, NULL, NULL, NULL, NULL, 10, '2022-12-05 22:48:15', '5.00', '20.00', 2, 'dddddd, wwwdw', 'Pendiente', ''),
+(19, NULL, NULL, NULL, NULL, 10, '2022-12-05 22:51:53', '5.00', '20.00', 2, 'fvddf, ewfwefww', 'Pendiente', '');
 
 -- --------------------------------------------------------
 
@@ -602,7 +619,7 @@ ALTER TABLE `contacto`
 -- AUTO_INCREMENT de la tabla `detalle_pedido`
 --
 ALTER TABLE `detalle_pedido`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_temp`
@@ -626,7 +643,7 @@ ALTER TABLE `modulo`
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`

@@ -13,7 +13,9 @@
           <li class="breadcrumb-item"><a href="<?= base_url(); ?>/distribucion"><?= $data['page_title'] ?></a></li>
         </ul>
       </div>
-      <button class="loca">click location</button>
+      <div class="cont_button">
+        <button title="Se generará el recorrido incluyendo solo las ubicaciones que faltan por entregar el pedido" class="loca ped_pendientes text-center">Pendientes</button>
+      </div>
       <div class="cmn">
       <div id = 'map'></div>
       <div class="nada">

@@ -79,6 +79,31 @@
 
 }
 
+.cont_button{
+   
+   display: flex;
+   width: 100%;
+   padding: 5px 0;
+   flex-direction: row-reverse;
+   
+}
+
+
+.loca{
+   background-color: #54a199;
+   padding: 3px;
+   border-radius: 3px;
+   width: 90px;
+   border: 1px solid #7fbeb7;
+   color: aliceblue ;
+   display: none;
+}
+
+.loca:hover{
+   background-color: #437974;
+
+}
+
 
 
     @media only screen  and (max-width:520px){

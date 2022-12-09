@@ -67,7 +67,7 @@
 		<tbody>
 			<tr>
 				<td class="wd33">
-					<img src="<?= media() ?>/tienda/images/logo.png" alt="Logo">
+					<!-- <img src="<?= media() ?>/tienda/images/logo.png" alt="Logo"> -->
 				</td>
 				<td class="text-center wd33">
 					<h4><strong><?= NOMBRE_EMPESA ?></strong></h4>

@@ -39,10 +39,10 @@ class Pedidos extends Controllers{
 				$btnEdit = '';
 				$btnDelete = '';
 
-				$arrData[$i]['transaccion'] = $arrData[$i]['referenciacobro'];
-				if($arrData[$i]['idtransaccionpaypal'] != ""){
-					$arrData[$i]['transaccion'] = $arrData[$i]['idtransaccionpaypal'];
-				}
+					$arrData[$i]['transaccion'] = $arrData[$i]['referenciacobro'];
+				// if($arrData[$i]['idtransaccionpaypal'] != ""){
+				// 	$arrData[$i]['transaccion'] = $arrData[$i]['idtransaccionpaypal'];
+				// }
 
 				$arrData[$i]['monto'] = SMONEY.formatMoney($arrData[$i]['monto']);
 
@@ -56,7 +56,7 @@ class Pedidos extends Controllers{
 					if($arrData[$i]['idtipopago'] == 1){
 						$btnView .= '<a title="Ver Transacción" href="'.base_url().'/pedidos/transaccion/'.$arrData[$i]['idtransaccionpaypal'].'" target="_blanck" class="btn btn-info btn-sm"> <i class="fa fa-paypal" aria-hidden="true"></i> </a> ';
 					}else{
-						$btnView .= '<button class="btn btn-secondary btn-sm" disabled=""><i class="fa fa-paypal" aria-hidden="true"></i></button> ';
+						// $btnView .= '<button class="btn btn-secondary btn-sm" disabled=""><i class="fa fa-paypal" aria-hidden="true"></i></button> ';
 					}
 				}
 				if($_SESSION['permisosMod']['u']){

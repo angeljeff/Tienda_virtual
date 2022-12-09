@@ -18,7 +18,7 @@
                             <h4 class="letras_tama"><b>Cliente: </b></h4>
                         </div>
                         <div class="col-8 col-xs-8 col-md-9 col-sm-8 " >
-                            <h4 class="letras_tama cliente" >xxxxxxxxx xxx  xxxxxxxxxx </h4>
+                            <h4 class="letras_tama cliente" > </h4>
                         </div>
                     </div>
                     <div class="row">
@@ -26,7 +26,7 @@
                             <h4 class="letras_tama"><b>Fecha: </b></h4>
                         </div>
                         <div class="col-8 col-xs-8 col-sm-4 col-md-9  ">
-                            <h4 class="letras_tama fecha">22/12/34 </h4>
+                            <h4 class="letras_tama fecha"> </h4>
                         </div>
                     </div>
                     <div class="row">
@@ -34,7 +34,7 @@
                             <h4 class="letras_tama"><b>Estado: </b></h4>
                         </div>
                         <div class="col-8 col-xs-8 col-sm-4 col-md-9  ">
-                            <h4 class="letras_tama estado">????????? </h4>
+                            <h4 class="letras_tama estado"></h4>
                         </div>
                     </div>
                     <div class="row">
@@ -42,7 +42,7 @@
                             <h4 class="letras_tama"><b>Dirección: </b></h4>
                         </div>
                         <div class="col-8 col-xs-8 col-sm-4 col-md-9  ">
-                            <h4 class="letras_tama direccion"> xxxxxxxxxxxxx</h4>
+                            <h4 class="letras_tama direccion"></h4>
                         </div>
                     </div>
                     <div class="row">
@@ -50,7 +50,7 @@
                             <h4 class="letras_tama"><b>Celular: </b></h4>
                         </div>
                         <div class="col-8 col-xs-8 col-sm-4 col-md-9  ">
-                            <h4 class="letras_tama celular"> xxxxxxxxx </h4>
+                            <h4 class="letras_tama celular">  </h4>
                         </div>
                     </div>
                 </div>
@@ -67,33 +67,33 @@
                                     <th>Total</th>
                                     </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="productos">
                         </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-8 text-right">
+                        <div class="col-8 col-xs-7 col-sm-8 col-md-8 text-right">
                             <h5 class="letras_tama " ><b >Subtotal: </b></h5>
 
                         </div>
-                        <div class="col-md-4 text-right">
-                            <h5 class="letras_tama">xxxx.xx </h5>
+                        <div class="col-4 col-xs-5 col-sm-4 col-md-4 text-right">
+                            <h5 class="letras_tama subtotal">xxxx.xx </h5>
                         </div>
-                        <div class="col-md-8 text-right">
+                        <div class="col-8 col-xs-7 col-sm-8 col-md-8 text-right">
                             <h5 class="letras_tama"><b>Envio: </b></h5>
 
                         </div>
-                        <div class="col-md-4 text-right">
-                            <h5 class="letras_tama">5 </h5>
+                        <div class="col-4 col-xs-5 col-sm-4 col-md-4 text-right">
+                            <h5 class="letras_tama"> $5.00 </h5>
                         </div>
-                        <div class="col-md-8 text-right">
+                        <div class="col-8 col-xs-7 col-sm-8 col-md-8 text-right">
                             <h5 class="letras_tama"><b>Total: </b></h5>
 
                         </div>
-                        <div class="col-md-4 text-right">
-                            <h5 class="letras_tama">xxxxx </h5>
+                        <div class="col-4 col-xs-5 col-sm-4 col-md-4 text-right">
+                            <h5 class="letras_tama total"> </h5>
                         </div>
                     </div>
                 </div>

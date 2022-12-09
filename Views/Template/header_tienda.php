@@ -37,6 +37,10 @@
 	<meta property="og:url"         content="<?= $urlWeb; ?>" />
 	<meta property="og:image"       content="<?= $urlImg; ?>" />
 
+	
+    <!-- font-awesone  -->
+    <script src="https://kit.fontawesome.com/2e35153c9c.js" crossorigin="anonymous"></script>
+
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="<?= media() ?>/tienda/images/favicon.ico"/>
 <!--===============================================================================================-->

@@ -44,18 +44,21 @@ trait TCliente{
         return $return;
 	}
 
-	public function insertPedido(string $idtransaccionpaypal = NULL, string $datospaypal = NULL, int $personaid, float $costo_envio, string $monto, int $tipopagoid, string $direccionenvio, string $status){
+	public function insertPedido( int $personaid, float $costo_envio, string $monto, int $tipopagoid, string $direccionenvio, string $status, string $latitud, string $longitud, string $referencia, string $imagen){
 		$this->con = new Mysql();
-		$query_insert  = "INSERT INTO pedido(idtransaccionpaypal,datospaypal,personaid,costo_envio,monto,tipopagoid,direccion_envio,status) 
-							  VALUES(?,?,?,?,?,?,?,?)";
-		$arrData = array($idtransaccionpaypal,
-    						$datospaypal,
+		$query_insert  = "INSERT INTO pedido(personaid,costo_envio,monto,tipopagoid,direccion_envio,status,latitud,longitud,referencia,imagen) 
+							  VALUES(?,?,?,?,?,?,?,?,?,?)";
+		$arrData = array(
     						$personaid,
     						$costo_envio,
     						$monto,
     						$tipopagoid,
     						$direccionenvio,
-    						$status
+    						$status,
+							$latitud,
+							$longitud,
+							$referencia,
+							$imagen
     					);
 		$request_insert = $this->con->insert($query_insert,$arrData);
 	    $return = $request_insert;
@@ -122,8 +125,6 @@ trait TCliente{
 		$this->con = new Mysql();
 		$request = array();
 		$sql = "SELECT p.idpedido,
-							p.referenciacobro,
-							p.idtransaccionpaypal,
 							p.personaid,
 							p.fecha,
 							p.costo_envio,

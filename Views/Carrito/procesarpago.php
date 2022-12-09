@@ -12,21 +12,21 @@ $tituloTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['titul
 $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['contenido'] : "";
 
 ?>
-<script
+<!-- <script
     src="https://www.paypal.com/sdk/js?client-id=<?= IDCLIENTE ?>&currency=<?= CURRENCY ?>">
 </script>
 <script>
   paypal.Buttons({
-    createOrder: function(data, actions) {
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: <?= $total; ?>
-          },
-          description: "Compra de artículos en <?= NOMBRE_EMPESA ?> por <?= SMONEY.$total ?> ",
-        }]
-      });
-    },
+    // createOrder: function(data, actions) {
+    //   return actions.order.create({
+    //     purchase_units: [{
+    //       amount: {
+    //         value: <?= $total; ?>
+    //       },
+    //       description: "Compra de artículos en <?= NOMBRE_EMPESA ?> por <?= SMONEY.$total ?> ",
+    //     }]
+    //   });
+    // },
     onApprove: function(data, actions) {
       // This function captures the funds from the transaction.
       return actions.order.capture().then(function(details) {
@@ -59,7 +59,7 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
       });
     }
   }).render('#paypal-btn-container');
-</script>
+</script> -->
 
 <!-- Modal -->
 <div class="modal fade" id="modalTerminos" tabindex="-1" aria-hidden="true">
@@ -107,13 +107,27 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
 						if(isset($_SESSION['login'])){
 					?>
 						<div>
+
 							<label for="tipopago">Dirección de envío</label>
 							<div class="bor8 bg0 m-b-12">
 								<input id="txtDireccion" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="state" placeholder="Dirección de envío">
 							</div>
-							<div class="bor8 bg0 m-b-22">
-								<input id="txtCiudad" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Ciudad / Estado">
+							<div class="bor8 bg0 m-b-12">
+								<input id="txtreferencia" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="state" placeholder="Referencia">
 							</div>
+
+							<div class="bor8 bg0 m-b-22">
+							<select id="ciudad" class="js-select stext-111 cl8 plh3 size-111 p-lr-15" name="ciudad">
+								<option value="Guayaquil">Guayaquil</option>
+								<option value="Duran">Durán</option>
+								<option value="Samborondon">Samborondón</option>
+							</select>
+								<!-- <input id="txtCiudad" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Ciudad / Estado"> -->
+							</div>
+							<input id="latitud" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="state" placeholder="latitud" hidden>
+							<input id="longitud" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="state" placeholder="longitud" hidden>
+							<button type="submit" id="btnUbicacion" class="flex-c-m pointer btn btn-primary"> <i class="fa-solid fa-location-dot"></i> &nbsp Obtener ubicación</button>
+
 						</div>
 					<?php }else{ ?>
 
@@ -235,44 +249,41 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
 							</h4>
 							<div class="divmetodpago">
 								<div>
-									<label for="paypal">
-										<input type="radio" id="paypal" class="methodpago" name="payment-method" checked="" value="Paypal">
-										<img src="<?= media()?>/images/img-paypal.jpg" alt="Icono de PayPal" class="ml-space-sm" width="74" height="20">
+									<label for="contraentrega">
+										<input type="radio" id="contraentrega" class="methodpago" checked="" name="payment-method" value="2">
+										<span>Contra Entrega</span>
 									</label>
+
 								</div>
 								<div>
-									<label for="contraentrega">
-										<input type="radio" id="contraentrega" class="methodpago" name="payment-method" value="CT">
-										<span>Contra Entrega</span>
+								<label for="paypal">
+										<input type="radio" id="paypal" class="methodpago" name="payment-method"  value="5">				
+										<span>Depósito Bancario</span>
 									</label>
 								</div>
 								<div id="divtipopago" class="notblock" >
-									<label for="listtipopago">Tipo de pago</label>
-									<div class="rs1-select2 rs2-select2 bor8 bg0 m-b-12 m-t-9">
-										<select id="listtipopago" class="js-select2" name="listtipopago">
-										<?php 
-											if(count($data['tiposPago']) > 0){ 
-												foreach ($data['tiposPago'] as $tipopago) {
-													if($tipopago['idtipopago'] != 1){
-										 ?>
-										 	<option value="<?= $tipopago['idtipopago']?>"><?= $tipopago['tipopago']?></option>
-										<?php
-													}
-												}
-										 } ?>
-										</select>
-										<div class="dropDownSelect2"></div>
-									</div>
 									<br>
-									<button type="submit" id="btnComprar" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">Procesar pedido</button>
+									<label for="listtipopago">Sube el comprobante de pago.</label>
+									<div class="rs1-select2 rs2-select2  bg0 m-b-12 m-t-9">
+                                <div class="form-file__action">
+                                    <input type="file" name="image" id="image"/>
+                                </div>
+                            </div>	
+
+										
+									</div>
 								</div>
 								<div id="divpaypal">
+									<br>
 									<div>
-										<p>Para completar la transacción, te enviaremos a los servidores seguros de PayPal.</p>
+										<p>El pago contraentrega, usted deberá cancelar el valor en efectivo al momento de recibir su producto.</p>
 									</div>
 									<br>
 									<div id="paypal-btn-container"></div>
 								</div>
+								<br>
+								<button type="button" id="btnComprar" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">Procesar pedido</button>
+
 							</div>
 						</div>
 					</div>			

@@ -17,8 +17,12 @@
   
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 
+
     <!-- importando jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+    <!-- font-awesone  -->
+    <script src="https://kit.fontawesome.com/2e35153c9c.js" crossorigin="anonymous"></script>
 
 
     <!-- Main CSS-->

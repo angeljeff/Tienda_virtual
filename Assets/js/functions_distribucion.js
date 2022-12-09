@@ -7,7 +7,13 @@ $(document).ready(function(){
   vueltas=0; // la cantidad de vueltas dependiendo la longitud de os pedidos extraidos de la base de datos
   ubicaciones=[[-2.250408, -79.881556]]    // se guardaran las ubicaciones de los pedidos
   camino=[0]                          //todos los pedidos 
+  distancias=[]                       // distancias desde los puntos
+  arrayubicacionesaleatorias=[]       // almaceno las ubicaciones aleatorias
+  sumatorias=[]                       //utilizada para sumar las distancias de las ubicaiones creadas aleatoriamente
   arreglo_final_mostrar=[]
+  arreglopedidosaprobados=[]
+
+  let pendientes= document.querySelector(".ped_pendientes")
   
   latitudes=[-2.2522428,-2.2422428,-2.2513239,-2.2601974,-2.2755276,-2.2755276,-2.2755276,-2.2755276,-2.2755276,-2.2755276];
   longitudes=[79.8766129,-79.8166129,-79.8763493,-79.8931353,-79.9112241,-79.8931353,-79.8931353,-79.8931353,-79.8931353];
@@ -21,7 +27,7 @@ $(document).ready(function(){
   // DIBUJO EL MAPA
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: 'hola mundo &copy; <a href="http://facebook.com">kenny_xd</a> barcelona, <a href="http://google.com">AA-CC</a>, Imagery © <a href="http://cloudmade.com">AGUA</a>',
-  minZoom: 4,
+  minZoom: 8,
   maxZoom: 18
   }).addTo(map);
   
@@ -46,19 +52,12 @@ $(document).ready(function(){
   
   
     function modifyText(e){
-      arreglo_pedidos[this.options.indice];
-      consultarproductos(arreglo_pedidos[this.options.indice])
+      arreglo_final_mostrar[this.options.indice];
+      consultarproductos(arreglo_final_mostrar[this.options.indice])
       // e.target.setIcon(iconoverde);
       
     }
   
-  //   var marker= L.marker([-2.25262, -79.8766111], {icon: iconoazul});
-  //   marker.bindTooltip("10" , {
-  //     permanent: true,
-  //     direction: 'top',
-  //     className: "my-labels"
-  //  });
-  // marker.addTo(map);
   
   
   // seleccionar todos los pedidos
@@ -73,51 +72,39 @@ $(document).ready(function(){
         if(res.trim().length==2){
           mostrarmensaje.classList.add('mostrar_m');
         }else{
+          console.log(res,"es res");
           var pedidos = JSON.parse(res);
           arreglo_pedidos= pedidos;
-          for(i=0; i<pedidos.length; i++){
-            pedidos[i].latitud=latitudes[i];
-            pedidos[i].longitud=longitudes[i];
-          
-          }
+
+
+          // agrego a las ubicaciones 
           for(q=0; q<pedidos.length; q++){
             camino.push(q+1);
-            ubicaciones.push([pedidos[0].latitud,pedidos[0].longitud])
+            ubicaciones.push([pedidos[q].latitud,pedidos[q].longitud])
+            if(pedidos[q].status=="Entregado"){
+              pendientes.style.display = "flex";
+            }
           }
           let longitud_pedidos= pedidos.length
           if(longitud_pedidos<=2){
             arreglo_final_mostrar=pedidos
+            imprimir();
           }
           else if(longitud_pedidos>2 && longitud_pedidos<=6){
-            vueltas=10;
+            vueltas=20;
+            obtenerdistancias()
+
           }
           else if(longitud_pedidos>6 && longitud_pedidos<=10){
-            vueltas=50;
+            vueltas=100;
+            obtenerdistancias()
           }
           else{
-            vueltas=100;
+            vueltas=140;
+            obtenerdistancias()
           }
   
           
-          // for(i=0; i<pedidos.length; i++){
-          //   console.log(pedidos[i])
-          
-          // }
-          ordenar()
-          // for(i=0; i<pedidos.length; i++){
-          //   let mar=L.marker([parseFloat(pedidos[i].latitud), parseFloat(pedidos[i].longitud)],{indice:i})
-            
-          //   mar.bindTooltip(`${i}` , {
-          //   permanent: true,
-          //   direction: 'top',
-          //   className: "my-labels"
-          //   });
-          //   mar.addTo(map);
-          //   marcadores.push(mar);
-          //   marcadores[i].on('click', modifyText);
-            
-          
-          // }
           
         }
   
@@ -136,8 +123,6 @@ $(document).ready(function(){
   
   
   });
-  
-  
   
   
   
@@ -183,7 +168,6 @@ $(document).ready(function(){
       }
                   
   
-  
   });
     
   }
@@ -197,12 +181,7 @@ $(document).ready(function(){
   
   
   
-  
-  
-  
-  // arreglo con distancias
-  
-  
+  // creo el arreglo con distancias
   
   getKilometros = function(lat1,lon1,lat2,lon2)
   {
@@ -216,38 +195,36 @@ $(document).ready(function(){
   var d = R * c;
   return (d.toFixed(3))*1000; //Retorna tres decimales
   }
-  // console.log("distancia en km "+getKilometros(-2.250408,-79.881556,-2.2513239,-79.8763493))
+
   
   
-  
-  
-  camino=[0,1,2,3,4]
-  
-  
-  ubicaciones=[[-2.250408, -79.881556],[-2.2522428,-79.8166129],[-2.2422428,79.8766129],[-2.2513239,-79.8763493],[-2.2601974,-79.8931353]]
-  distancias=[]
-  console.log(ubicaciones[0][1])
-  
-  for (var i=0; i<ubicaciones.length; i++){
-    let ditan=[]
-    for(j=0;j<ubicaciones.length;j++){
-      
-      if(ubicaciones[i]==ubicaciones[j]){
-        ditan[j]=0;
-  
+
+
+  function obtenerdistancias(){
+    console.log(ubicaciones)
+    for (var i=0; i<ubicaciones.length; i++){
+      let ditan=[]
+      for(j=0;j<ubicaciones.length;j++){
+        if(ubicaciones[i]==ubicaciones[j]){
+          ditan[j]=0;
+        }
+        else{
+          ditan[j]= getKilometros(ubicaciones[i][0],ubicaciones[i][1],ubicaciones[j][0],ubicaciones[j][1])
+        }
       }
-      else{
-        ditan[j]= getKilometros(ubicaciones[i][0],ubicaciones[i][1],ubicaciones[j][0],ubicaciones[j][1])
-      }
+      distancias.push(ditan)
+    
     }
-    distancias.push(ditan)
-    console.log(distancias)
-  
+
+    crearposicionesaleatorias();
+
   }
+
   
-  console.log(distancias,"distancias" )
-  arrayubicacionesaleatorias=[]
-  for(h=0;h<10;h++){
+  
+
+function crearposicionesaleatorias(){
+  for(h=0;h<vueltas;h++){
     arraytemporal=[]
    while(arraytemporal.length<camino.length){
     let number =Math.round(Math.random() * (camino.length - 1));
@@ -266,31 +243,34 @@ $(document).ready(function(){
   
   
   }
-  console.log(arrayubicacionesaleatorias, "son la ubi aleatorias")
+  realizarsumatorias();
+}
+
+
   
-  sumatorias=[]
-  for(m=0;m<10;m++){
-    suma=0
-    for(u=1;u<arrayubicacionesaleatorias[m].length ;u++){
-      if(u==1){
-        suma+= distancias[0][arrayubicacionesaleatorias[m][u]]
-      }else{
-        suma+= distancias[arrayubicacionesaleatorias[m][u-1]][arrayubicacionesaleatorias[m][u]]
+
+  function realizarsumatorias(){
+    for(m=0;m<vueltas;m++){
+      suma=0
+      for(u=1;u<arrayubicacionesaleatorias[m].length ;u++){
+        if(u==1){
+          suma+= distancias[0][arrayubicacionesaleatorias[m][u]]
+        }else{
+          suma+= distancias[arrayubicacionesaleatorias[m][u-1]][arrayubicacionesaleatorias[m][u]]
+        }
       }
+      sumatorias.push(parseInt(suma) )
     }
-    sumatorias.push(parseInt(suma) )
+      
+    
+    minimo= Math.min(...sumatorias)
+    busqueda= sumatorias.indexOf(minimo);
+    arrayimprimir=arrayubicacionesaleatorias[busqueda]
+    ordenar();
+
   }
-  
-  console.log(sumatorias+"sumatorias")
-  
-  minimo= Math.min(...sumatorias)
-  busqueda= sumatorias.indexOf(minimo);
-  console.log("es el minimo"+minimo)
-  console.log("es la busqueda"+busqueda)
-  arrayimprimir=arrayubicacionesaleatorias[busqueda]
-  console.log("es el array a mostrar "+arrayubicacionesaleatorias[busqueda])
-  
-  
+
+
   
   
   ordenar = ()=>{
@@ -299,36 +279,106 @@ $(document).ready(function(){
     if(element!=0){
       console.log("es el elemento"+element)
       arreglo_final_mostrar.push(arreglo_pedidos[element-1])
-    }
-  
-    
+    } 
   });
-  
-  console.log(arreglo_pedidos,"arreglo sin ordenar")
-  console.log(arreglo_final_mostrar,"arreglo ordenado")
-  
-  
-  for(i=0; i<arreglo_final_mostrar.length; i++){
-    let mar=L.marker([parseFloat(arreglo_final_mostrar[i].latitud), parseFloat(arreglo_final_mostrar[i].longitud)],{indice:i})
-    
-    mar.bindTooltip(`${i}` , {
-    permanent: true,
-    direction: 'top',
-    className: "my-labels"
+
+
+  if(arreglopedidosaprobados.length>0){
+    arreglopedidosaprobados.forEach(elemento => {
+      arreglo_final_mostrar.push(elemento)
     });
-    mar.addTo(map);
-    marcadores.push(mar);
-    marcadores[i].on('click', modifyText);
+    
+    imprimirnuevamenteubicaciones()
+  }else{
+
+    imprimir()
+  }
+
+  
+}
+  
+
+  
+  
+  function imprimir(){
+    for(i=0; i<arreglo_final_mostrar.length; i++){
+      let mar=L.marker([parseFloat(arreglo_final_mostrar[i].latitud), parseFloat(arreglo_final_mostrar[i].longitud)],{indice:i})
+      
+      mar.bindTooltip(`${i+1}` , {
+      permanent: true,
+      direction: 'top',
+      className: "my-labels"
+      });
+      mar.addTo(map);
+      marcadores.push(mar);
+      marcadores[i].on('click', modifyText);
+      
+    
+    }
+    
+  }
+
+
+  function imprimirnuevamenteubicaciones(){
+    for(i=0; i<arreglo_final_mostrar.length; i++){
+      let mar=L.marker([parseFloat(arreglo_final_mostrar[i].latitud), parseFloat(arreglo_final_mostrar[i].longitud)],{indice:i})
+      if(arreglo_final_mostrar[i].status!="Entregado"){
+        mar.bindTooltip(`${i+1}` , {
+          permanent: true,
+          direction: 'top',
+          className: "my-labels"
+          });
+
+      }else{
+        mar.bindTooltip(`` , {
+          permanent: true,
+          direction: 'top',
+          className: "my-labels"
+          });
+
+      }
+
+      mar.addTo(map);
+      marcadores.push(mar);
+      marcadores[i].on('click', modifyText);
+      
+    
+    }
+    
+  }
+
+  
     
   
-  }
   
+  
+  
+  function recorridopedidospendientes(){
+    for(cv=0; cv<marcadores.length; cv++){
+      map.removeLayer(marcadores[cv]);
+    }
+    arreglo_final_mostrar=[]
+    ubicaciones=[[-2.250408, -79.881556]]   
+    camino=[0]                          
+    distancias=[]                      
+    arrayubicacionesaleatorias=[]      
+    sumatorias=[]
+    arreglopedidosaprobados=[]
+    marcadores=[]
+
+    for(q=0; q<arreglo_pedidos.length; q++){
+      if(arreglo_pedidos[q].status=="Entregado"){
+        arreglopedidosaprobados.push(arreglo_pedidos[q])
+      }else{
+        camino.push(q+1);
+        ubicaciones.push([arreglo_pedidos[q].latitud,arreglo_pedidos[q].longitud])
+      }
+
+    }
+    obtenerdistancias()
     
+
   }
-  
-  
-  
-  
   
   
   
@@ -339,17 +389,9 @@ $(document).ready(function(){
   
   
   $(".loca").click(function () { //user clicks button
-    if (navigator.geolocation){ //check geolocation available 
-        //try to get user current location using getCurrentPosition() method
-        navigator.geolocation.getCurrentPosition(function(position){ 
-          console.log(position.coords.latitude)
-          console.log(position.coords.longitude);
-          L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
-  
-            });
-    }else{
-        console.log("No se ha permitido el acceso a la ubicación!");
-    }
+    recorridopedidospendientes()
+
+
   });
   
   
@@ -367,7 +409,7 @@ $(document).ready(function(){
   
   function abrirModal(pedido,x,subtotal)
   {
-  
+      console.log("pedido en el modal",pedido)
       document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
   
       document.querySelector('#titleModal').innerHTML = "Detalles Pedido";
@@ -376,8 +418,8 @@ $(document).ready(function(){
       document.querySelector('.direccion').innerText= pedido.direccion_envio;
       document.querySelector('.celular').innerText= pedido.telefono;
       document.querySelector('.estado').innerText= pedido.status;
-      document.querySelector('.total').innerText= "$"+pedido.monto;
-      document.querySelector('.subtotal').innerText= "$"+subtotal;
+      document.querySelector('.total').innerText= `$${pedido.monto}`;
+      document.querySelector('.subtotal').innerText= `$${subtotal}`;
       document.getElementById('productos').innerHTML=""
       document.getElementById('productos').innerHTML=x
       if(pedido.status=="Pendiente"){

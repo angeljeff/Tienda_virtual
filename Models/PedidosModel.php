@@ -14,7 +14,6 @@
 			}
 			$sql = "SELECT p.idpedido,
 							p.referenciacobro,
-							p.idtransaccionpaypal,
 							DATE_FORMAT(p.fecha, '%d/%m/%Y') as fecha,
 							p.monto,
 							tp.tipopago,
@@ -36,7 +35,6 @@
 			$request = array();
 			$sql = "SELECT p.idpedido,
 							p.referenciacobro,
-							p.idtransaccionpaypal,
 							p.personaid,
 							DATE_FORMAT(p.fecha, '%d/%m/%Y') as fecha,
 							p.costo_envio,
@@ -44,7 +42,8 @@
 							p.tipopagoid,
 							t.tipopago,
 							p.direccion_envio,
-							p.status
+							p.status,
+							imagen
 					FROM pedido as p
 					INNER JOIN tipopago t
 					ON p.tipopagoid = t.idtipopago

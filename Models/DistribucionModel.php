@@ -9,6 +9,8 @@ class DistribucionModel extends Mysql
 	}
 
 	public function seleccionPedidos(){
+		$fecha= date('Y-m-d');
+		$fechastring=strval($fecha);
 		$sql = "SELECT p.idpedido,
 				p.personaid,
 				p.direccion_envio,
@@ -16,14 +18,19 @@ class DistribucionModel extends Mysql
 				p.monto,
 				p.status,
 				p.personaid,
+				p.latitud,
+				p.longitud,
 				per.nombres,
 				per.apellidos,
 				per.telefono
 		FROM pedido p 
 		INNER JOIN persona per
-		ON p.personaid = per.idpersona ";
+		ON p.personaid = per.idpersona 
+		where
+		`fecha` like '$fechastring%' ";
 		$request = $this->select_all($sql);
 		return $request;
+
 
 	}
 

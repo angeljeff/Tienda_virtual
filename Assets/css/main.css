@@ -16734,3 +16734,16 @@ be a descendant of the grid when it is being dragged.
 .user .user-settings label {
   color: #666;
 }
+
+.logo-orden{
+  width: 12rem;
+  height: auto;
+}
+
+.ojo{
+  cursor: pointer;
+}
+.imag-comprobante{
+  width: 80%;
+  height: auto;
+}
