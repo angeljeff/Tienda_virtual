@@ -91,16 +91,16 @@ $(document).ready(function(){
             imprimir();
           }
           else if(longitud_pedidos>2 && longitud_pedidos<=6){
-            vueltas=20;
+            vueltas=30;
             obtenerdistancias()
 
           }
           else if(longitud_pedidos>6 && longitud_pedidos<=10){
-            vueltas=100;
+            vueltas=110;
             obtenerdistancias()
           }
           else{
-            vueltas=140;
+            vueltas=160;
             obtenerdistancias()
           }
   
