@@ -27,7 +27,9 @@ class DistribucionModel extends Mysql
 		INNER JOIN persona per
 		ON p.personaid = per.idpersona 
 		where
-		`fecha` like '$fechastring%' ";
+		`fecha` like '$fechastring%' and 
+            p.status not in ('Cancelado','Pendiente') 
+		 ";
 		$request = $this->select_all($sql);
 		return $request;
 
