@@ -53,6 +53,14 @@
                             <h4 class="letras_tama celular">  </h4>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-4 col-xs-4 col-sm-4 col-md-3  ">
+                            <h4 class="letras_tama"><b>Repartidor: </b></h4>
+                        </div>
+                        <div class="col-8 col-xs-8 col-sm-4 col-md-9  ">
+                            <h4 class="letras_tama repartidor">  </h4>
+                        </div>
+                    </div>
                 </div>
               </div>
                 <br>
@@ -86,7 +94,7 @@
 
                         </div>
                         <div class="col-4 col-xs-5 col-sm-4 col-md-4 text-right">
-                            <h5 class="letras_tama"> $5.00 </h5>
+                            <h5 class="letras_tama va_envio">  </h5>
                         </div>
                         <div class="col-8 col-xs-7 col-sm-8 col-md-8 text-right">
                             <h5 class="letras_tama"><b>Total: </b></h5>

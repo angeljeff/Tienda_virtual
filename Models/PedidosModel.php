@@ -14,7 +14,8 @@
 			}
 			$sql = "SELECT p.idpedido,
 							p.referenciacobro,
-							DATE_FORMAT(p.fecha, '%d/%m/%Y') as fecha,
+							-- DATE_FORMAT(p.fecha, '%d/%m/%Y') as fecha,
+							p.fecha,
 							p.monto,
 							tp.tipopago,
 							tp.idtipopago,
@@ -40,6 +41,7 @@
 							p.costo_envio,
 							p.monto,
 							p.tipopagoid,
+							p.idrepartidor,
 							t.tipopago,
 							p.direccion_envio,
 							p.status,
@@ -133,19 +135,29 @@
 			}
 		}
 
-		public function updatePedido(int $idpedido, $transaccion = NULL, $idtipopago = NULL, string $estado){
+		public function updatePedido(int $idpedido, $transaccion = NULL, $idtipopago = NULL, string $estado, int $idrepartidor){
 			if($transaccion == NULL){
-				$query_insert  = "UPDATE pedido SET status = ?  WHERE idpedido = $idpedido ";
-	        	$arrData = array($estado);
+				$query_insert  = "UPDATE pedido SET status = ? , idrepartidor= ?  WHERE idpedido = $idpedido ";
+	        	$arrData = array($estado, $idrepartidor);
 			}else{
-				$query_insert  = "UPDATE pedido SET referenciacobro = ?, tipopagoid = ?,status = ? WHERE idpedido = $idpedido";
+				$query_insert  = "UPDATE pedido SET referenciacobro = ?, tipopagoid = ?,status = ?, idrepartidor= ? WHERE idpedido = $idpedido";
 	        	$arrData = array($transaccion,
 	        					$idtipopago,
-	    						$estado
+	    						$estado,
+								$idrepartidor
+
 	    					);
 			}
 			$request_insert = $this->update($query_insert,$arrData);
         	return $request_insert;
 		}
+
+
+
+		
+
+
+
+
 	}
  ?>

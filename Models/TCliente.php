@@ -156,6 +156,33 @@ trait TCliente{
 		return $request;
 	}
 
+
+	
+	public function updatestock(int $idpedido){
+		$this->con = new Mysql();
+		$sql = "SELECT dp.* FROM detalle_pedido as dp  INNER JOIN pedido as f ON dp.pedidoid= f.idpedido  where dp.pedidoid=$idpedido";
+		$product = $this->con->select_all($sql);
+		$limite= sizeof($product);
+		foreach($product as $pro): 
+			$tabla[]= [$pro['productoid'],$pro['cantidad']];
+		endforeach;
+		for ($i=0; $i<$limite; $i++){
+			$id_pro=$tabla[$i][0];
+			$canti=$tabla[$i][1];
+			$consulta="SELECT * FROM producto WHERE  idproducto= $id_pro";
+			$data= $this->con->select($consulta);
+			$nuevo_stock=$data['stock'] - $canti;
+			$cons= "UPDATE producto SET stock= ? WHERE idproducto= $id_pro";
+			$arrData = array();
+			$this->newstock = $nuevo_stock;
+			$arrData = array($this->newstock);
+			$datopro= $this->con->update($cons , $arrData);
+		}
+		
+		
+
+	}
+
 	public function setSuscripcion(string $nombre, string $email){
 		$this->con = new Mysql();
 		$sql = 	"SELECT * FROM suscripciones WHERE email = '{$email}'";

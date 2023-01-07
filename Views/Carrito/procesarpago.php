@@ -118,9 +118,9 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
 
 							<div class="bor8 bg0 m-b-22">
 							<select id="ciudad" class="js-select stext-111 cl8 plh3 size-111 p-lr-15" name="ciudad">
-								<option value="Guayaquil">Guayaquil</option>
+								<!-- <option value="Guayaquil">Guayaquil</option>
 								<option value="Duran">Durán</option>
-								<option value="Samborondon">Samborondón</option>
+								<option value="Samborondon">Samborondón</option> -->
 							</select>
 								<!-- <input id="txtCiudad" class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="postcode" placeholder="Ciudad / Estado"> -->
 							</div>
@@ -202,7 +202,8 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
 						</div>
 
 						<div class="size-209">
-							<span id="subTotalCompra" class="mtext-110 cl2">
+							<span id="subTotalCompra" class="mtext-110 cl2" >
+								<input type="text" id="subtotal" value="<?= SMONEY.formatMoney($subtotal) ?>" hidden>
 								<?= SMONEY.formatMoney($subtotal) ?>
 							</span>
 						</div>
@@ -214,8 +215,10 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
 						</div>
 
 						<div class="size-209">
-							<span class="mtext-110 cl2">
-								<?= SMONEY.formatMoney(COSTOENVIO) ?>
+							<input type="text" id="enviovalor" hidden>
+							<span class="mtext-110 cl2" id="envio">
+
+								
 							</span>
 						</div>
 					</div>
@@ -227,8 +230,8 @@ $infoTerminos = !empty(getInfoPage(PTERMINOS)) ? getInfoPage(PTERMINOS)['conteni
 						</div>
 
 						<div class="size-209 p-t-1">
-							<span id="totalCompra" class="mtext-110 cl2">
-								<?= SMONEY.formatMoney($total) ?>
+							<span id="totalCompra" class="mtext-110 cl2 totalsuma" >
+								
 							</span>
 						</div>
 					</div>

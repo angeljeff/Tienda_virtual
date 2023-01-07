@@ -155,7 +155,7 @@ class Pedidos extends Controllers{
 				}else{
 					$requestPedido['tipospago'] = $this->getTiposPagoT();
 					$htmlModal = getFile("Template/Modals/modalPedido",$requestPedido);
-					$arrResponse = array("status" => true, "html" => $htmlModal);
+					$arrResponse = array("status" => true, "html" => $htmlModal, "respon"  => $requestPedido);
 				}
 			}
 			echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
@@ -170,6 +170,7 @@ class Pedidos extends Controllers{
 				$idpedido = !empty($_POST['idpedido']) ? intval($_POST['idpedido']) : "";
 				$estado = !empty($_POST['listEstado']) ? strClean($_POST['listEstado']) : "";
 				$idtipopago =  !empty($_POST['listTipopago']) ? intval($_POST['listTipopago']) : "";
+				$idrepartidor =  !empty($_POST['listRepartidor']) ? intval($_POST['listRepartidor']) : "";
 				$transaccion = !empty($_POST['txtTransaccion']) ? strClean($_POST['txtTransaccion']) : "";
 
 				if($idpedido == ""){
@@ -179,8 +180,9 @@ class Pedidos extends Controllers{
 						if($estado == ""){
 							$arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
 						}else{
-							$requestPedido = $this->model->updatePedido($idpedido,"","",$estado);
+							$requestPedido = $this->model->updatePedido($idpedido,"","",$estado,$idrepartidor);
 							if($requestPedido){
+								
 								$arrResponse = array("status" => true, "msg" => "Datos actualizados correctamente");
 							}else{
 								$arrResponse = array("status" => false, "msg" => "No es posible actualizar la información.");
@@ -190,7 +192,7 @@ class Pedidos extends Controllers{
 						if($transaccion == "" or $idtipopago =="" or $estado == ""){
 							$arrResponse = array("status" => false, "msg" => 'Datos incorrectos.');
 						}else{
-							$requestPedido = $this->model->updatePedido($idpedido,$transaccion,$idtipopago,$estado);
+							$requestPedido = $this->model->updatePedido($idpedido,$transaccion,$idtipopago,$estado,$idrepartidor);
 							if($requestPedido){
 								$arrResponse = array("status" => true, "msg" => "Datos actualizados correctamente");
 							}else{

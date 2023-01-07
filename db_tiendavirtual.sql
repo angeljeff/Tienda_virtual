@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-12-2022 a las 02:51:50
+-- Tiempo de generación: 07-01-2023 a las 22:57:02
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.1
 
@@ -105,7 +105,36 @@ INSERT INTO `detalle_pedido` (`id`, `pedidoid`, `productoid`, `precio`, `cantida
 (16, 13, 4, '15.00', 1),
 (17, 14, 5, '12.00', 1),
 (18, 15, 4, '15.00', 1),
-(19, 16, 5, '12.00', 1);
+(19, 16, 5, '12.00', 1),
+(51, 47, 5, '12.00', 2),
+(52, 48, 4, '15.00', 2),
+(53, 49, 4, '15.00', 3),
+(54, 50, 4, '15.00', 3),
+(55, 51, 4, '15.00', 3),
+(56, 52, 4, '15.00', 3),
+(57, 53, 4, '15.00', 3),
+(58, 54, 4, '15.00', 3),
+(59, 55, 5, '12.00', 5),
+(60, 56, 4, '15.00', 3),
+(61, 57, 5, '12.00', 3),
+(62, 58, 1, '100.00', 4),
+(63, 59, 4, '15.00', 3),
+(64, 60, 6, '13.00', 3),
+(65, 61, 4, '15.00', 3),
+(66, 62, 4, '15.00', 2),
+(67, 63, 4, '15.00', 3),
+(68, 64, 6, '13.00', 2),
+(69, 65, 5, '12.00', 3),
+(70, 66, 4, '15.00', 5),
+(71, 67, 7, '10.00', 3),
+(72, 68, 7, '10.00', 6),
+(73, 68, 5, '12.00', 1),
+(74, 69, 4, '15.00', 3),
+(75, 70, 5, '12.00', 7),
+(76, 71, 6, '13.00', 3),
+(77, 72, 5, '12.00', 3),
+(78, 73, 4, '15.00', 3),
+(79, 74, 4, '15.00', 3);
 
 -- --------------------------------------------------------
 
@@ -184,7 +213,9 @@ INSERT INTO `modulo` (`idmodulo`, `titulo`, `descripcion`, `status`) VALUES
 (6, 'Caterogías', 'Caterogías Productos', 1),
 (7, 'Suscriptores', 'Suscriptores del sitio web', 1),
 (8, 'Contactos', 'Mensajes del formulario contacto', 1),
-(9, 'Páginas', 'Páginas del sitio web', 1);
+(9, 'Páginas', 'Páginas del sitio web', 1),
+(10, 'Distribucion', 'El mapa con la ruta a repartir', 1),
+(11, 'Sectores', 'Los sectores donde se realizan las entregas', 1);
 
 -- --------------------------------------------------------
 
@@ -205,31 +236,60 @@ CREATE TABLE `pedido` (
   `tipopagoid` bigint(20) NOT NULL,
   `direccion_envio` text COLLATE utf8mb4_swedish_ci NOT NULL,
   `status` varchar(100) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
-  `imagen` varchar(255) COLLATE utf8mb4_swedish_ci DEFAULT NULL
+  `imagen` varchar(255) COLLATE utf8mb4_swedish_ci DEFAULT NULL,
+  `idrepartidor` bigint(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `pedido`
 --
 
-INSERT INTO `pedido` (`idpedido`, `referenciacobro`, `latitud`, `longitud`, `referencia`, `personaid`, `fecha`, `costo_envio`, `monto`, `tipopagoid`, `direccion_envio`, `status`, `imagen`) VALUES
-(3, NULL, 'jftygjmhbbvgh', NULL, NULL, 10, '2022-11-23 23:20:01', '5.00', '77.00', 2, 'samborondon 5555, sambo', 'Entregado', ''),
-(4, NULL, NULL, NULL, NULL, 10, '2022-11-23 23:47:35', '5.00', '125.00', 2, 'sambo, rondon', 'Pendiente', ''),
-(5, NULL, NULL, NULL, NULL, 10, '2022-11-24 00:02:26', '5.00', '155.00', 2, 'Ciudad de duran, guayas', 'Pendiente', ''),
-(6, NULL, NULL, NULL, NULL, 11, '2022-11-24 14:27:04', '5.00', '32.00', 2, 'Guasmo sur, los estribos, Guayaquil', 'Pendiente', ''),
-(7, NULL, NULL, NULL, NULL, 10, '2022-11-24 14:37:19', '5.00', '605.00', 2, 'Rttf, Gggg', 'Pendiente', ''),
-(8, NULL, '77', NULL, NULL, 11, '2022-12-04 20:41:19', '5.00', '305.00', 2, 'samborondon, 0090802', 'Aprobado', ''),
-(9, NULL, NULL, NULL, NULL, 11, '2022-12-04 21:19:23', '5.00', '20.00', 2, 'paraiso, 0090802', 'Pendiente', ''),
-(10, NULL, NULL, NULL, NULL, 15, '2022-12-04 21:30:05', '5.00', '15.00', 2, 'Ciudad de duran, 0090802', 'Pendiente', ''),
-(11, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:09:20', '5.00', '17.00', 2, 'ddddd, 2322422422', 'Pendiente', ''),
-(12, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:14:13', '5.00', '105.00', 2, 'guasmo, guayaqul', 'Pendiente', ''),
-(13, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:40:10', '5.00', '20.00', 2, 'ccc, guayaquil', 'Pendiente', ''),
-(14, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:53:09', '5.00', '17.00', 2, 'aaa, ddddddd', 'Pendiente', ''),
-(15, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:55:15', '5.00', '20.00', 2, 'dfddddd, wwwwwwwww', 'Pendiente', ''),
-(16, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:56:42', '5.00', '17.00', 2, 'hola, guayaquil', 'Pendiente', ''),
-(17, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:58:53', '5.00', '32.00', 2, 'fff, e3eee', 'Pendiente', ''),
-(18, NULL, NULL, NULL, NULL, 10, '2022-12-05 22:48:15', '5.00', '20.00', 2, 'dddddd, wwwdw', 'Pendiente', ''),
-(19, NULL, NULL, NULL, NULL, 10, '2022-12-05 22:51:53', '5.00', '20.00', 2, 'fvddf, ewfwefww', 'Pendiente', '');
+INSERT INTO `pedido` (`idpedido`, `referenciacobro`, `latitud`, `longitud`, `referencia`, `personaid`, `fecha`, `costo_envio`, `monto`, `tipopagoid`, `direccion_envio`, `status`, `imagen`, `idrepartidor`) VALUES
+(3, NULL, 'jftygjmhbbvgh', NULL, NULL, 10, '2022-11-23 23:20:01', '5.00', '77.00', 2, 'samborondon 5555, sambo', 'Entregado', '', NULL),
+(4, NULL, NULL, NULL, NULL, 10, '2022-11-23 23:47:35', '5.00', '125.00', 2, 'sambo, rondon', 'Pendiente', '', NULL),
+(5, NULL, NULL, NULL, NULL, 10, '2022-11-24 00:02:26', '5.00', '155.00', 2, 'Ciudad de duran, guayas', 'Pendiente', '', NULL),
+(6, NULL, NULL, NULL, NULL, 11, '2022-11-24 14:27:04', '5.00', '32.00', 2, 'Guasmo sur, los estribos, Guayaquil', 'Pendiente', '', NULL),
+(7, NULL, NULL, NULL, NULL, 10, '2022-11-24 14:37:19', '5.00', '605.00', 2, 'Rttf, Gggg', 'Pendiente', '', NULL),
+(8, NULL, '77', NULL, NULL, 11, '2022-12-04 20:41:19', '5.00', '305.00', 2, 'samborondon, 0090802', 'Aprobado', '', NULL),
+(9, NULL, NULL, NULL, NULL, 11, '2022-12-04 21:19:23', '5.00', '20.00', 2, 'paraiso, 0090802', 'Pendiente', '', NULL),
+(10, NULL, NULL, NULL, NULL, 15, '2022-12-04 21:30:05', '5.00', '15.00', 2, 'Ciudad de duran, 0090802', 'Pendiente', '', NULL),
+(11, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:09:20', '5.00', '17.00', 2, 'ddddd, 2322422422', 'Pendiente', '', NULL),
+(12, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:14:13', '5.00', '105.00', 2, 'guasmo, guayaqul', 'Pendiente', '', NULL),
+(13, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:40:10', '5.00', '20.00', 2, 'ccc, guayaquil', 'Pendiente', '', NULL),
+(14, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:53:09', '5.00', '17.00', 2, 'aaa, ddddddd', 'Pendiente', '', NULL),
+(15, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:55:15', '5.00', '20.00', 2, 'dfddddd, wwwwwwwww', 'Pendiente', '', NULL),
+(16, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:56:42', '5.00', '17.00', 2, 'hola, guayaquil', 'Pendiente', '', NULL),
+(17, NULL, NULL, NULL, NULL, 10, '2022-12-05 17:58:53', '5.00', '32.00', 2, 'fff, e3eee', 'Pendiente', '', NULL),
+(18, NULL, NULL, NULL, NULL, 10, '2022-12-05 22:48:15', '5.00', '20.00', 2, 'dddddd, wwwdw', 'Pendiente', '', NULL),
+(19, NULL, NULL, NULL, NULL, 10, '2022-12-05 22:51:53', '5.00', '20.00', 2, 'fvddf, ewfwefww', 'Pendiente', '', NULL),
+(47, NULL, '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 14:46:29', '5.00', '29.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(48, NULL, '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 14:48:44', '5.00', '35.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(49, NULL, '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 15:11:22', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(50, NULL, '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 15:15:43', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(51, NULL, '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 15:22:09', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(52, NULL, '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 15:34:20', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(53, NULL, '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 15:35:21', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(54, 'fff', '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 15:41:00', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Aprobado', '', 13),
+(55, '232r425', '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 15:41:55', '5.00', '65.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', 13),
+(56, '1s3', '-2.2557777', '-79.8856714', 'Guayas', 11, '2023-01-03 16:12:09', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Pendiente', '', NULL),
+(57, '3fff6', '-2.2522188', '-79.8766088', 'Guayas', 10, '2023-01-04 09:20:24', '5.00', '41.00', 5, 'Guayaquil, Guasmo norte', 'Aprobado', 'Assets/imagenesComprobante/1672842024530_bco.jpeg', 12),
+(58, 'dddf', '-2.2522188', '-79.8466088', 'Guayas', 10, '2023-01-04 10:22:53', '5.00', '405.00', 2, 'Guayaquil, Guasmo norte', 'Entregado', '', 13),
+(59, 'rr', '-2.2512188', '-79.8766088', 'Guayas', 10, '2023-01-04 10:29:01', '5.00', '50.00', 2, 'Guayaquil, Guasmo norte', 'Aprobado', '', 13),
+(60, 'eef322', '-2.2524171', '-79.8766065', 'Guayas', 10, '2023-01-04 12:42:14', '5.00', '44.00', 2, 'Guayaquil, Guasmo norte', 'Entregado', '', 13),
+(61, NULL, '-2.1664', '-79.9011', 'Guayas', 10, '2023-01-05 21:35:54', '5.00', '50.00', 2, 'Duran, guasmo norte', 'Pendiente', '', NULL),
+(62, NULL, '-2.1664', '-79.9011', 'Guayas', 10, '2023-01-05 22:52:38', '5.00', '35.00', 2, 'Samborondón, guasmo norte', 'Pendiente', '', NULL),
+(63, NULL, '-2.1664', '-79.9011', 'sssssssssssssssssssssssssssss', 10, '2023-01-05 23:11:41', '6.50', '51.50', 2, 'Duran, allllaaa', 'Pendiente', '', NULL),
+(64, NULL, '-2.1664', '-79.9011', 'qqqqqqqqqqqqqqqqqq', 10, '2023-01-05 23:15:06', '4.00', '30.00', 5, 'Guayaquil, wwwwwwwwwwwww', 'Pendiente', 'Assets/imagenesComprobante/1672978506755_15.png', NULL),
+(65, 'edd222', '-2.2522208', '-79.8766079', 'Guayas', 10, '2023-01-06 15:19:59', '4.00', '40.00', 2, 'Guayaquil, Guasmo norte', 'Aprobado', '', 13),
+(66, 'wdfffcg', '-2.2522208', '-79.8762279', 'Guayas', 10, '2023-01-06 15:31:09', '6.50', '81.50', 2, 'Duran, Guasmo norte', 'Aprobado', '', 12),
+(67, 'ce33', '-2.2522455', '-79.8799975', 'Guayas', 10, '2023-01-06 16:54:11', '6.50', '36.50', 2, 'Duran, Guasmo norte', 'Entregado', '', 12),
+(68, 'vvv', '-2.2522225', '-79.8666021', 'Guayas', 10, '2023-01-06 21:26:11', '4.00', '76.00', 2, 'Guayaquil, Guasmo norte', 'Aprobado', '', 12),
+(69, 'nnjjj', '-2.2522225', '-79.8746021', 'Guayas', 10, '2023-01-06 21:26:49', '5.00', '50.00', 2, 'Samborondón, Guasmo norte', 'Aprobado', '', 12),
+(70, 'cccccc', '-2.2522225', '-79.9766021', 'Guayas', 10, '2023-01-06 21:35:05', '4.00', '88.00', 2, 'Guayaquil, Guasmo norte', 'Aprobado', '', 12),
+(71, 'ccvrr4', '-2.2512235', '-79.8766021', 'Guayas', 10, '2023-01-06 21:39:10', '6.50', '45.50', 2, 'Duran, Guasmo norte', 'Aprobado', '', 13),
+(72, 'ccd33', '-2.1664', '-79.9011', 'feferfereeeee', 10, '2023-01-06 22:32:47', '6.50', '42.50', 2, 'Duran, dddddddddddddaaaa', 'Aprobado', '', 13),
+(73, 'vdeee', '-2.1664', '-79.9111', 'Guayas', 10, '2023-01-06 22:46:56', '6.50', '51.50', 2, 'Duran, guasmo norte', 'Aprobado', '', 13),
+(74, 'sws11', '-2.2522123', '-79.8766163', 'Guayas', 10, '2023-01-07 16:52:11', '4.00', '49.00', 2, 'Guayaquil, Guasmo norte', 'Aprobado', '', 13);
 
 -- --------------------------------------------------------
 
@@ -305,7 +365,10 @@ INSERT INTO `permisos` (`idpermiso`, `rolid`, `moduloid`, `r`, `w`, `u`, `d`) VA
 (53, 5, 6, 0, 0, 0, 0),
 (54, 5, 7, 0, 0, 0, 0),
 (55, 5, 8, 0, 0, 0, 0),
-(56, 5, 9, 0, 0, 0, 0);
+(56, 5, 9, 0, 0, 0, 0),
+(57, 1, 10, 1, 1, 1, 1),
+(59, 1, 11, 1, 1, 1, 1),
+(60, 3, 11, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -341,7 +404,7 @@ INSERT INTO `persona` (`idpersona`, `identificacion`, `nombres`, `apellidos`, `t
 (4, '798465877', 'Fernando', 'Guerra', 468498, 'fer@info.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, NULL, NULL, NULL, 4, '2021-08-21 18:07:00', 1),
 (10, '16868', 'Leonel', 'Cortez', 989438559, 'leonelcortez1999@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'CF', 'leo cortez', 'sambo', 'cb0c33553a3622c3eda9-a32220859c5b22cce2f6-61d6beccc2021356195b-ce1702610eee13c4584e', 3, '2022-11-23 23:19:41', 1),
 (11, '0955633328', 'Kenny German', 'Marcillo Plua', 999639651, 'marcillokenny@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, NULL, NULL, '31d93ed3c42bcd610002-17455714bdd28a5e66db-ba2f75701c9a3ecac311-394f249605446390fb12', 1, '2022-11-23 23:34:09', 1),
-(12, '0912459887', 'Prueba', 'P', 999639651, 'kennygermanmarcillo-597@hotmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, NULL, NULL, NULL, 5, '2022-12-04 20:51:15', 0),
+(12, '0912459887', 'Prueba', 'P', 999639651, 'kennygermanmarcillo-597@hotmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, NULL, NULL, NULL, 5, '2022-12-04 20:51:15', 1),
 (13, '0955633329', 'Ruben', 'Blades', 989438556, 'repartidor@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, NULL, NULL, NULL, 5, '2022-12-04 20:53:17', 1),
 (14, '0955633328', 'Ken', 'Plua', 999639651, 'admin@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', NULL, NULL, NULL, '93f6a1df800147033ecb-1c3e7981cd3e53d934a9-fb4148db6cc323f65256-6083c1132c908d3f7437', 6, '2022-12-04 21:28:37', 1),
 (15, NULL, 'Prueb', 'Pruebis', 989438559, 'prueba@gmail.com', 'b5e4ce572bafc754ef40fde7d832b76efb21dab1f63ff2b18747a2664ede7f56', NULL, NULL, NULL, '035e4e6d94462585d20f-2b46f310c232f4dc92a6-e4ddee01eaf674cd0aee-0ec6bd8244c6c0d6f00a', 3, '2022-12-04 21:29:50', 1);
@@ -402,13 +465,13 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`idproducto`, `categoriaid`, `codigo`, `nombre`, `descripcion`, `precio`, `stock`, `imagen`, `datecreated`, `ruta`, `status`) VALUES
-(1, 1, '2417984565', 'Chaqueta Azul', '<p><strong style=\"margin: 0px; padding: 0px; color: #000000; font-family: \'Open Sans\', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Lorem Ipsum</strong><span style=\"color: #000000; font-family: \'Open Sans\', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span></p>', '100.00', 50, NULL, '2021-08-20 03:12:14', 'chaqueta-azul', 1),
+(1, 1, '2417984565', 'Chaqueta Azul', '<p><strong style=\"margin: 0px; padding: 0px; color: #000000; font-family: \'Open Sans\', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Lorem Ipsum</strong><span style=\"color: #000000; font-family: \'Open Sans\', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span></p>', '100.00', 46, NULL, '2021-08-20 03:12:14', 'chaqueta-azul', 1),
 (2, 1, '456879878', 'Reloj', '<p><strong style=\"margin: 0px; padding: 0px; color: #000000; font-family: \'Open Sans\', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;\">Lorem Ipsum</strong><span style=\"color: #000000; font-family: \'Open Sans\', Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: #ffffff; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</span></p>', '200.00', 100, NULL, '2021-08-20 03:14:10', 'reloj', 0),
 (3, 2, '4658798787', 'Bocina JBL Flip 5', '<p>Wireless Bluetooth streaming. 24 hours of playtime. IPX7 waterproof. JBL Connect plus. High-capacity battery. Connector type: 3.5 millimeter stereo. Power Source Type: Battery Powered..</p>', '300.00', 100, NULL, '2021-08-21 00:48:21', 'bocina-jbl-flip-5', 0),
-(4, 3, '122355656', 'gallo corral', '<h1>Pollo vivo de corral</h1>', '15.00', 1000, NULL, '2022-11-23 22:56:50', 'gallo-corral', 1),
-(5, 4, '987456', 'pollo broiler', '<p>&ldquo;broiler&rdquo; se refiere a todos aquellos pollos que han sido seleccionados gen&eacute;ticamente para crecer m&aacute;s r&aacute;pido. Este tipo de pollo<strong>&nbsp;es tan com&uacute;n que el 90% de los pollos criados para carne en el mundo son as&iacute;.</strong></p>', '12.00', 5000, NULL, '2022-11-23 23:05:35', 'pollo-broiler', 1),
-(6, 2, '90802656556', 'pollos', '<p>polllll jsj</p>', '13.00', 200, NULL, '2022-12-04 21:12:21', 'pollos', 1),
-(7, 1, '15836515', 'gallina ponedoras', '<p>gallinas ponedoras .......................................................................</p>', '10.00', 500, NULL, '2022-12-04 21:16:19', 'gallina-ponedoras', 1);
+(4, 3, '122355656', 'gallo corral', '<h1>Pollo vivo de corral</h1>', '15.00', 972, NULL, '2022-11-23 22:56:50', 'gallo-corral', 1),
+(5, 4, '987456', 'pollo broiler', '<p>&ldquo;broiler&rdquo; se refiere a todos aquellos pollos que han sido seleccionados gen&eacute;ticamente para crecer m&aacute;s r&aacute;pido. Este tipo de pollo<strong>&nbsp;es tan com&uacute;n que el 90% de los pollos criados para carne en el mundo son as&iacute;.</strong></p>', '12.00', 4983, NULL, '2022-11-23 23:05:35', 'pollo-broiler', 1),
+(6, 2, '90802656556', 'pollos', '<p>polllll jsj</p>', '13.00', 192, NULL, '2022-12-04 21:12:21', 'pollos', 1),
+(7, 1, '15836515', 'gallina ponedoras', '<p>gallinas ponedoras .......................................................................</p>', '10.00', 491, NULL, '2022-12-04 21:16:19', 'gallina-ponedoras', 1);
 
 -- --------------------------------------------------------
 
@@ -449,6 +512,29 @@ INSERT INTO `rol` (`idrol`, `nombrerol`, `descripcion`, `status`) VALUES
 (4, 'Vendedor', 'Operador de tienda', 1),
 (5, 'Repartidor', 'Encargado de llevar los productos hacia el cliente', 1),
 (6, 'Adiministrador', 'Todo', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sectores`
+--
+
+CREATE TABLE `sectores` (
+  `idsectores` int(20) NOT NULL,
+  `sector` varchar(200) NOT NULL,
+  `precio_sector` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `descripcion_s` varchar(200) DEFAULT NULL,
+  `estado` int(2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `sectores`
+--
+
+INSERT INTO `sectores` (`idsectores`, `sector`, `precio_sector`, `descripcion_s`, `estado`) VALUES
+(1, 'Guayaquil', '4.00', 'Ciudad donde se encuentra la matriz de la avícola', 1),
+(2, 'Duran', '6.50', 'Aquí no hay agua se cobra más caro.', 1),
+(3, 'Samborondón', '5.00', 'Samborondón pues :v', 1);
 
 -- --------------------------------------------------------
 
@@ -588,6 +674,12 @@ ALTER TABLE `rol`
   ADD PRIMARY KEY (`idrol`);
 
 --
+-- Indices de la tabla `sectores`
+--
+ALTER TABLE `sectores`
+  ADD PRIMARY KEY (`idsectores`);
+
+--
 -- Indices de la tabla `suscripciones`
 --
 ALTER TABLE `suscripciones`
@@ -619,7 +711,7 @@ ALTER TABLE `contacto`
 -- AUTO_INCREMENT de la tabla `detalle_pedido`
 --
 ALTER TABLE `detalle_pedido`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `detalle_temp`
@@ -637,25 +729,25 @@ ALTER TABLE `imagen`
 -- AUTO_INCREMENT de la tabla `modulo`
 --
 ALTER TABLE `modulo`
-  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `idmodulo` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT de la tabla `permisos`
 --
 ALTER TABLE `permisos`
-  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `idpermiso` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
 --
 ALTER TABLE `persona`
-  MODIFY `idpersona` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `idpersona` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
@@ -680,6 +772,12 @@ ALTER TABLE `reembolso`
 --
 ALTER TABLE `rol`
   MODIFY `idrol` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT de la tabla `sectores`
+--
+ALTER TABLE `sectores`
+  MODIFY `idsectores` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `suscripciones`

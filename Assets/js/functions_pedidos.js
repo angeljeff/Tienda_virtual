@@ -150,12 +150,62 @@ function fntEditInfo(element,idpedido){
     request.onreadystatechange = function(){
         if(request.readyState == 4 && request.status == 200){
             let objData = JSON.parse(request.responseText);
+            console.log(objData.respon.orden.idrepartidor);
             if(objData.status)
             {
                 document.querySelector("#divModal").innerHTML = objData.html;
-                $('#modalFormPedido').modal('show');
-                $('select').selectpicker();
-                fntUpdateInfo();
+
+                //consulto los repartidores
+                $.ajax({
+                    url : " "+base_url+"/Usuarios/getRepartidores",
+                    type : 'POST',
+                    data :{hola:"pedidos"},
+                    success : function(res) {
+                        console.log(res,"es res");
+                        var repartidores = JSON.parse(res);
+                        var repart= Object.keys(repartidores).length
+                        console.log(repart);
+                        var html="";
+                        
+                        html+=`<select name="listRepartidor" id="listRepartidor" class="form-control selectpicker" data-live-search="true" required="">`
+                        if(objData.respon.orden.idrepartidor== null){
+                            for(i=0; i<repart ; i++){
+                                html+=`<option value="${repartidores[i].idpersona}"  >${repartidores[i].nombres} ${repartidores[i].apellidos}</option>`
+                            }
+                        }else{
+                            for(i=0; i<repart ; i++){
+                                if(repartidores[i].idpersona!= parseInt(objData.respon.orden.idrepartidor)){
+                                    html+=`<option value="${repartidores[i].idpersona}"  >${repartidores[i].nombres} ${repartidores[i].apellidos}</option>`
+                                }
+                                else{
+                                    html+=`<option value="${repartidores[i].idpersona}" selected >${repartidores[i].nombres} ${repartidores[i].apellidos}</option>`
+                                }
+                            }
+                        }
+
+  
+                      html+=`</select>`
+                      select= document.getElementById('selectRepartidor')
+                      select.innerHTML=html
+
+
+                        $('#modalFormPedido').modal('show');
+                        $('select').selectpicker();
+                        fntUpdateInfo();
+                        
+            
+                
+                    },    
+                    error : function(xhr, status) {
+                        alert('Disculpe, existió un problema');
+                    },
+                    complete : function(xhr, status) {
+                    }
+                                
+                
+                
+                });
+
             }else{
                 swal("Error", objData.msg , "error");
             }

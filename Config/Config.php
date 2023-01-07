@@ -72,6 +72,8 @@
 	const MSUSCRIPTORES = 7;
 	const MDCONTACTOS = 8;
 	const MDPAGINAS = 9;
+	const MDDISTRIBUCION = 10;
+	const MSECTORES = 11;
 
 	//Páginas
 	const PINICIO = 1;

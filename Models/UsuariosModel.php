@@ -130,6 +130,26 @@
 			return $request;
 		
 		}
+
+		public function seleccionRepartidores()
+		{
+			$sql = "SELECT * FROM persona WHERE rolid= 5 and status = 1 ";
+			$arrData = array(0);
+			$request = $this->select_all($sql);
+			return $request;
+		}
+
+		public function obtengorepartidor(int $idrepartidor)
+		{
+			$sql = "SELECT * FROM persona WHERE idpersona= $idrepartidor ";
+			$arrData = array(0);
+			$request = $this->select($sql);
+			return $request;
+		}
+
+		
+
+
 		public function deleteUsuario(int $intIdpersona)
 		{
 			$this->intIdUsuario = $intIdpersona;

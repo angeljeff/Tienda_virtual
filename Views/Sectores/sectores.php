@@ -1,16 +1,19 @@
 <?php 
     headerAdmin($data); 
-    //getModal('modalProductos',$data);
+    getModal('modalSectores',$data);
 ?>
-    <div id="divModal"></div>
     <main class="app-content">
       <div class="app-title">
         <div>
-            <h1><i class="fas fa-box"></i> <?= $data['page_title'] ?></h1>
+            <h1><i class="fa-solid fa-tags"></i> <?= $data['page_title'] ?>
+              <?php if($_SESSION['permisosMod']['w']){ ?>
+                <button class="btn btn-primary" type="button" onclick="openModal();" ><i class="fas fa-plus-circle"></i> Nuevo</button>
+              <?php } ?> 
+            </h1>
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item"><a href="<?= base_url(); ?>/pedidos"><?= $data['page_title'] ?></a></li>
+          <li class="breadcrumb-item"><a href="<?= base_url(); ?>/sectores"><?= $data['page_title'] ?></a></li>
         </ul>
       </div>
         <div class="row">
@@ -18,15 +21,14 @@
               <div class="tile">
                 <div class="tile-body">
                   <div class="table-responsive">
-                    <table class="table table-hover table-bordered" id="tablePedidos">
+                    <table class="table table-hover table-bordered" id="tableSectores">
                       <thead>
                         <tr>
                           <th>ID</th>
-                          <th>Ref. / Transacción</th>
-                          <th>Fecha y hora</th>
-                          <th>Monto</th>
-                          <th>Tipo pago</th>
-                          <th>Estado</th>
+                          <th>Sector</th>
+                          <th>Descripción</th>
+                          <th>Precio</th>
+                          <th>estado</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -40,4 +42,3 @@
         </div>
     </main>
 <?php footerAdmin($data); ?>
-    

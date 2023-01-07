@@ -75,6 +75,22 @@
                               </select>
                           </td>
                       </tr>
+                      <tr>
+                          <td>Repartidor:</td>
+                          <td id="selectRepartidor">
+                              <!-- <select name="listRepartidor" id="listRepartidor" class="form-control selectpicker" data-live-search="true" required="">
+                                  <?php 
+                                    for ($i=0; $i < count(STATUS) ; $i++) {
+                                        $selected = "";
+                                        if( STATUS[$i] == $data['orden']['status']){
+                                            $selected = " selected ";
+                                        }
+                                   ?>
+                                   <option value="<?= STATUS[$i] ?>" <?= $selected ?> ><?= STATUS[$i] ?></option>
+                               <?php } ?>
+                              </select> -->
+                          </td>
+                      </tr>
                   </tbody>
               </table>
               <div class="tile-footer">

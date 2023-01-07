@@ -57,10 +57,13 @@
                 <?php if(!empty($_SESSION['permisos'][6]['r'])){ ?>
                 <li><a class="treeview-item" href="<?= base_url(); ?>/categorias"><i class="icon fa fa-circle-o"></i> Categorías</a></li>
                 <?php } ?>
+                <?php if(!empty($_SESSION['permisos'][11]['r'])){ ?>
+                <li><a class="treeview-item" href="<?= base_url(); ?>/sectores"><i class="icon fa fa-circle-o"></i> Sectores</a></li>
+                <?php } ?>
             </ul>
         </li>
         <?php } ?>
-        <?php if(!empty($_SESSION['permisos'][2]['r'])){ ?>
+        <?php if(!empty($_SESSION['permisos'][MDDISTRIBUCION]['r'])){ ?>
         <li>
             <a class="app-menu__item" href="<?= base_url(); ?>/distribucion">
                 <i class="app-menu__icon fa fa-motorcycle" aria-hidden="true"></i>

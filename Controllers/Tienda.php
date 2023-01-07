@@ -275,7 +275,7 @@
 				$referencia= $_POST['referencia'];
 				$imagen= $_POST['imagen'];
 				$subtotal = 0;
-				$costo_envio = COSTOENVIO;
+				$costo_envio = floatval($_POST['valorenvio']);
 				$ruta="";
 
 				if($imagen!=""){
@@ -288,7 +288,7 @@
 					foreach ($_SESSION['arrCarrito'] as $pro) {
 						$subtotal += $pro['cantidad'] * $pro['precio']; 
 					}
-					$monto = $subtotal + COSTOENVIO;
+					$monto = $subtotal + $costo_envio;
 					//Pago contra entrega
 
 						//Crear pedido
@@ -320,6 +320,9 @@
 							// 						'emailCopia' => EMAIL_PEDIDOS,
 							// 						'pedido' => $infoOrden );
 							// sendEmail($dataEmailOrden,"email_notificacion_orden");
+
+							//actualizo el stock de los productos
+							$respuesta = $this->updatestock($request_pedido);
 
 							$orden = openssl_encrypt($request_pedido, METHODENCRIPT, KEY);
 							$transaccion = openssl_encrypt($idtransaccionpaypal, METHODENCRIPT, KEY);

@@ -14,8 +14,10 @@ class DistribucionModel extends Mysql
 		$sql = "SELECT p.idpedido,
 				p.personaid,
 				p.direccion_envio,
+				p.idrepartidor,
 				DATE_FORMAT(p.fecha, '%d/%m/%Y') as fecha,
 				p.monto,
+				p.costo_envio,
 				p.status,
 				p.personaid,
 				p.latitud,
@@ -29,7 +31,7 @@ class DistribucionModel extends Mysql
 		where
 		`fecha` like '$fechastring%' and 
             p.status not in ('Cancelado','Pendiente') 
-		 ";
+		ORDER BY p.idrepartidor ASC ";
 		$request = $this->select_all($sql);
 		return $request;
 

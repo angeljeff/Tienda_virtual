@@ -9,7 +9,7 @@ class Distribucion extends Controllers{
 			header('Location: '.base_url().'/login');
 			die();
 		}
-		getPermisos(MPEDIDOS);
+		getPermisos(MDDISTRIBUCION);
 	}
 
 	public function Distribucion()

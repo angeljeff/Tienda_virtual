@@ -1,3 +1,5 @@
+
+valores_sectores=""
 $(".js-select2").each(function(){
 	$(this).select2({
 		minimumResultsForSearch: 20,
@@ -362,6 +364,35 @@ function errorCallback(error) {
 
 
 
+if(document.querySelector("#ciudad")){
+	let alteracionciudad = document.querySelector("#ciudad");
+	alteracionciudad.addEventListener('change', (event) => {
+		let enviovalor=document.querySelector("#envio");
+		let subtotalvalor = document.querySelector("#subtotal");
+		let totalvalor = document.querySelector(".totalsuma");
+		let inputenvio = document.querySelector("#enviovalor");
+		const subt = subtotalvalor.value.slice(1)
+		for(j=0; j<valores_sectores.length; j++){
+			if(event.target.value==valores_sectores[j].sector){
+				inputenvio.value=""
+				enviovalor.innerText= "$"+valores_sectores[j].precio_sector
+				let total=parseFloat(subt)+ parseFloat(valores_sectores[j].precio_sector)
+				totalvalor.innerText= "$"+total.toString()
+				inputenvio.value=parseFloat(valores_sectores[j].precio_sector)
+				break;
+
+			}
+		}
+
+		
+		// alert("cambio"+event.target.value)
+			// resultado.textContent = `Te gusta el sabor ${event.target.value}`;
+
+		});
+	
+	
+
+	}
 
 
 
@@ -379,6 +410,7 @@ if(document.querySelector("#btnComprar")){
 	    let longitud = document.querySelector("#longitud").value;
 		let ciu = document.querySelector("#ciudad").value;
 		let imagen = document.querySelector("#image").value;
+		let valorenvio = document.querySelector("#enviovalor").value;
 
 		if (tipopago.checked == true){ inttipopago=2; }else{ inttipopago=5;}
 
@@ -432,9 +464,9 @@ if(document.querySelector("#btnComprar")){
 			formData.append('longitud',longitud);
 			formData.append('imagen',nombrearchivo);
 			formData.append('contenidoimagen',contenidoimagen);
+			formData.append('valorenvio',valorenvio);
 		   	request.open("POST",ajaxUrl,true);
 		    request.send(formData);
-			console.log("ssssssssssssssssssssssssssssssssssssssssss")
 		    request.onreadystatechange = function(){
 		    	if(request.readyState != 4) return;
 		    	if(request.status == 200){
@@ -550,6 +582,45 @@ if(document.querySelector("#frmContacto")){
 
 	},false);
 }
+
+
+function consultar_sectores(){
+	$.ajax({
+		url : " "+base_url+"/Sectores/obtenerSectores",
+		type : 'POST',
+		data :{"f":"d"},
+		success : function(respuesta) {
+		  var sectors = JSON.parse(respuesta);
+		  valores_sectores= sectors
+		  var sec="";
+		  for(i=0; i<sectors.length; i++){
+			sec+=`<option value="${sectors[i].sector}">${sectors[i].sector}</option>`
+		  }
+		  let opcionesciudad = document.querySelector("#ciudad");
+		  opcionesciudad.innerHTML = sec;
+		  let valorenvio = document.querySelector("#envio");
+		  let valorsubtotal = document.querySelector("#subtotal");
+		  let valortotal = document.querySelector(".totalsuma");
+		  let inputenvio = document.querySelector("#enviovalor");
+		  const sub = valorsubtotal.value.slice(1)
+		  valorenvio.innerText= "$"+sectors[0].precio_sector
+		  let total=parseFloat(sub)+ parseFloat(sectors[0].precio_sector)
+		  valortotal.innerText= "$"+total.toString()
+		  inputenvio.value=parseFloat(sectors[0].precio_sector)
+		},    
+		error : function(xhr, status) {
+			alert('Disculpe, existió un problema');
+		},
+		// código a ejecutar sin importar si la petición falló o no
+		complete : function(xhr, status) {
+		}
+	});
+}
+
+if(document.querySelector("#ciudad")){
+	consultar_sectores()
+}
+
 
 
 

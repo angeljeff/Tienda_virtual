@@ -170,6 +170,33 @@
 			die();
 		}
 
+		public function getRepartidores(){
+			if($_SESSION['permisosMod']['r']){
+				$arrData = $this->model->seleccionRepartidores();
+				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+			}
+			die();
+		}
+
+
+		public function getRepartidorpedido(){
+			if($_SESSION['permisosMod']['r']){
+				if($_POST['idrepartidor']==null || $_POST['idrepartidor']== "" ){
+					echo "no";
+				}else{
+					$idrepartidor=$_POST['idrepartidor'];
+					$arrData = $this->model->obtengorepartidor($idrepartidor);
+					echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+
+				}
+			}
+			die();
+		}
+
+
+
+
+
 		public function perfil(){
 			$data['page_tag'] = "Perfil";
 			$data['page_title'] = "Perfil de usuario";

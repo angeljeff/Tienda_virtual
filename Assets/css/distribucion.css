@@ -17,10 +17,90 @@
     border: transparent;
     box-shadow: none;
     font-weight: 900;
-    font-size: 22px;
+    font-size: 19px;
     margin-top: 1em;  
     }
+
+   .leaflet-tooltip.my-labels1{
+background-color: #20c997;
+border: transparent;
+box-shadow: none;
+font-weight: 900;
+font-size: 19px;
+margin-top: 1em;  
+}
+
+.leaflet-tooltip.my-labels2 {
+   background-color: #F7FE2E;
+   border: transparent;
+   box-shadow: none;
+   font-weight: 900;
+   font-size: 19px;
+   margin-top: 1em;  
+}
+
+.leaflet-tooltip.my-labels3{
+    background-color: #FE642E;
+    border: transparent;
+    box-shadow: none;
+    font-weight: 900;
+    font-size: 19px;
+    margin-top: 1em;  
+}
  
+.leaflet-tooltip.my-labels4 {
+ background-color: #2E64FE;
+ border: transparent;
+ box-shadow: none;
+ font-weight: 900;
+ font-size: 19px;
+ margin-top: 1em;  
+ }
+         
+.leaflet-tooltip.my-labels5{
+   background-color: #A4A4A4;
+   border: transparent;
+   box-shadow: none;
+   font-weight: 900;
+   font-size: 19px;
+   margin-top: 1em;  
+}
+
+.leaflet-tooltip.my-labels6 {
+   background-color: #00FFFF;
+   border: transparent;
+   box-shadow: none;
+   font-weight: 900;
+   font-size: 19px;
+   margin-top: 1em;  
+}
+
+.leaflet-tooltip.my-labels7{
+    background-color: #B18904;
+    border: transparent;
+    box-shadow: none;
+    font-weight: 900;
+    font-size: 19px;
+    margin-top: 1em;  
+}
+ 
+.leaflet-tooltip.my-labels8 {
+ background-color: #FF00BF;
+ border: transparent;
+ box-shadow: none;
+ font-weight: 900;
+ font-size: 19px;
+ margin-top: 1em;  
+ }
+         
+.leaflet-tooltip.my-labels9{
+   background-color: #8904B1;
+   border: transparent;
+   box-shadow: none;
+   font-weight: 900;
+   font-size: 19px;
+   margin-top: 1em;  
+}
 
  .nada { 
     width: 100%;

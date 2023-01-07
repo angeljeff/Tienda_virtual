@@ -1,6 +1,5 @@
 $(document).ready(function(){
 
-
   // declaracion de variables 
   var arreglo_pedidos= new Array(); //  arreglo pedidos extraido de la base de datos 
   marcadores =new Array(); //arreglo que guarda los marcadores para el clickeo
@@ -11,17 +10,16 @@ $(document).ready(function(){
   arrayubicacionesaleatorias=[]       // almaceno las ubicaciones aleatorias
   sumatorias=[]                       //utilizada para sumar las distancias de las ubicaiones creadas aleatoriamente
   arreglo_final_mostrar=[]
-  arreglopedidosaprobados=[]
+  arraygeneral=new Array
+  etiquetascss=['my-labels','my-labels1','my-labels2','my-labels3','my-labels4','my-labels5','my-labels6','my-labels7','my-labels8','my-labels9']
+  arrayentregados=[]  
+  todospedidos=[]
+  marcadoresentregados=[]
 
-  let pendientes= document.querySelector(".ped_pendientes")
-  
-  latitudes=[-2.2522428,-2.2422428,-2.2513239,-2.2601974,-2.2755276,-2.2755276,-2.2755276,-2.2755276,-2.2755276,-2.2755276];
-  longitudes=[79.8766129,-79.8166129,-79.8763493,-79.8931353,-79.9112241,-79.8931353,-79.8931353,-79.8931353,-79.8931353];
-  
   let mostrarmensaje=document.querySelector('.nada')
   
   // posición centro del mapa 
-  var map = L.map('map').setView([-2.250408, -79.881556],16);
+  var map = L.map('map').setView([-2.250408, -79.881556],13);
   
   
   // DIBUJO EL MAPA
@@ -36,35 +34,72 @@ $(document).ready(function(){
   avicola = new iconoBase({iconUrl: 'Assets/tienda/images/logo.png'});      
   L.marker([-2.250408, -79.881556], {icon: avicola}).addTo(map);
   
-  
-    // var marcadoresx = L.Icon.extend({
-    //   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    //   iconSize: [10, 20],
-    //   iconAnchor: [7, 5]
-    //  });
-  
-    // var iconoverde = new  marcadoresx({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png'});
-    // var iconoazul = new marcadoresx({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png'});
-    // var iconorojo = new marcadoresx({iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png'});
-    
-  
+
   
   
   
     function modifyText(e){
-      arreglo_final_mostrar[this.options.indice];
-      consultarproductos(arreglo_final_mostrar[this.options.indice])
-      // e.target.setIcon(iconoverde);
+      todospedidos[this.options.indice];
+      consultarproductos(todospedidos[this.options.indice])
+      
+    }
+
+      
+    function modifyTextEntregados(e){
+      arrayentregados[this.options.indic];
+      consultarproductos(arrayentregados[this.options.indic])
       
     }
   
   
+
+function organizar_arreglo(){
+          
+          // agrego a las ubicaciones 
+          for(q=0; q<arraygeneral.length; q++){
+            arreglo_final_mostrar=[]
+            camino=[0]
+            ubicaciones=[[-2.250408, -79.881556]]
+            for(let nm=0; nm<arraygeneral[q].length; nm++){
+              camino.push(nm+1);
+              ubicaciones.push([arraygeneral[q][nm].latitud,arraygeneral[q][nm].longitud])
+            }
+            let longitud_pedidos= arraygeneral[q].length
+            if(longitud_pedidos<=2){
+              arreglo_final_mostrar=arraygeneral[q]
+              imprimirnuevamenteubicaciones();
+            }
+            else if(longitud_pedidos>2 && longitud_pedidos<=6){
+              vueltas=30;
+              obtenerdistancias(q)
   
+            }
+            else if(longitud_pedidos>6 && longitud_pedidos<=10){
+              vueltas=110;
+              obtenerdistancias()
+            }
+            else{
+              vueltas=160;
+              obtenerdistancias()
+            }
+
+          }
+
+          if(arrayentregados.length>0){
+            imprimirentregados()
+          }
+
+
+}
+ 
+    
+
+
+
   // seleccionar todos los pedidos
-  
+
   function obtenerpedidos(){
     $.ajax({
-      // la URL para la petición
       url : " "+base_url+"/Distribucion/getPedidos",
       type : 'POST',
       data :{hola:"pedidos"},
@@ -72,46 +107,47 @@ $(document).ready(function(){
         if(res.trim().length==2){
           mostrarmensaje.classList.add('mostrar_m');
         }else{
-          console.log(res,"es res");
           var pedidos = JSON.parse(res);
           arreglo_pedidos= pedidos;
+          let id_repartidor=""
+          let arraytemporal=[]
+          let arrayidpedidos=[]
+          for(let h=0; h<pedidos.length; h++){
+            id_repartidor=pedidos[h].idrepartidor
+            arraytemporal=[]
+            console.log(pedidos[h].status)
+            if(pedidos[h].status=="Entregado"){
+              arrayentregados.push(pedidos[h])
+            }else{             
+              for(let b=0; b<pedidos.length; b++){
+                if(pedidos[b].status!="Entregado"){          
+                  if(id_repartidor==pedidos[b].idrepartidor){
+                    let si= arrayidpedidos.indexOf(pedidos[b].idpedido);
+                    if(si==-1){
+                      arrayidpedidos.push(pedidos[b].idpedido)
+                      arraytemporal.push(pedidos[b])
+                    }
+                  }
+                }
+                if(arraytemporal.length>0){
+                  let no= arraygeneral.indexOf(arraytemporal);
+                  if(no==-1){
+                    arraygeneral.push(arraytemporal)
+                  }
 
+                }
 
-          // agrego a las ubicaciones 
-          for(q=0; q<pedidos.length; q++){
-            camino.push(q+1);
-            ubicaciones.push([pedidos[q].latitud,pedidos[q].longitud])
-            if(pedidos[q].status=="Entregado"){
-              pendientes.style.display = "flex";
+                }
+
             }
+      
           }
-          let longitud_pedidos= pedidos.length
-          if(longitud_pedidos<=2){
-            arreglo_final_mostrar=pedidos
-            imprimir();
-          }
-          else if(longitud_pedidos>2 && longitud_pedidos<=6){
-            vueltas=30;
-            obtenerdistancias()
-
-          }
-          else if(longitud_pedidos>6 && longitud_pedidos<=10){
-            vueltas=110;
-            obtenerdistancias()
-          }
-          else{
-            vueltas=160;
-            obtenerdistancias()
-          }
-  
-          
+          organizar_arreglo()
           
         }
   
       },    
-      // código a ejecutar si la petición falla;
-      // son pasados como argumentos a la función
-      // el objeto de la petición en crudo y código de estatus de la petición
+
       error : function(xhr, status) {
           alert('Disculpe, existió un problema');
       },
@@ -126,18 +162,18 @@ $(document).ready(function(){
   
   
   
+
+
   
   
   }
   function consultarproductos(pedido){
-    console.log("es el pedido que me llega"+pedido.idpedido)
     $.ajax({
       // la URL para la petición
       url : " "+base_url+"/Distribucion/getproductos",
       type : 'POST',
       data :{id:pedido.idpedido},
       success : function(respuesta) {
-        console.log(respuesta)
         var products = JSON.parse(respuesta);
         var x="";
         var subtotal=0;
@@ -148,17 +184,32 @@ $(document).ready(function(){
               <td>${products[i].precio}</td>
               </tr>`
           subtotal+=(products[i].cantidad*products[i].precio)
-          
-   
         }
-        abrirModal(pedido,x,subtotal)
-  
-  
+        repartidor= document.querySelector('.repartidor')
+        repartidor.innerText="";
+
+        $.ajax({
+          // la URL para la petición
+          url : " "+base_url+"/Usuarios/getRepartidorpedido",
+          type : 'POST',
+          data :{idrepartidor:pedido.idrepartidor},
+          success : function(res) {
+            if(res.trim().length==2){
+              repartidor.innerText="No se ha asignado repartidor"
+            }else{
+              var reparte = JSON.parse(res);
+              repartidor.innerText= reparte.nombres+" "+reparte.apellidos;
+
+            }
+          abrirModal(pedido,x,subtotal)
+
+          }
+
+ 
+      });
+
   
       },    
-      // código a ejecutar si la petición falla;
-      // son pasados como argumentos a la función
-      // el objeto de la petición en crudo y código de estatus de la petición
       error : function(xhr, status) {
           alert('Disculpe, existió un problema');
       },
@@ -185,7 +236,6 @@ $(document).ready(function(){
   
   getKilometros = function(lat1,lon1,lat2,lon2)
   {
-  console.log("es lo q me llega"+ lat1,lon1,lat2,lon2)
   rad = function(x) {return x*Math.PI/180;}
   var R = 6378.137; //Radio de la tierra en km
   var dLat = rad( lat2 - lat1 );
@@ -199,9 +249,8 @@ $(document).ready(function(){
   
   
 
-
-  function obtenerdistancias(){
-    console.log(ubicaciones)
+  function obtenerdistancias(q){
+    distancias=[]
     for (var i=0; i<ubicaciones.length; i++){
       let ditan=[]
       for(j=0;j<ubicaciones.length;j++){
@@ -216,16 +265,17 @@ $(document).ready(function(){
     
     }
 
-    crearposicionesaleatorias();
+    crearposicionesaleatorias(q);
 
   }
 
   
   
 
-function crearposicionesaleatorias(){
+function crearposicionesaleatorias(q){
+  arrayubicacionesaleatorias=[]
   for(h=0;h<vueltas;h++){
-    arraytemporal=[]
+   let arraytemporal=[]
    while(arraytemporal.length<camino.length){
     let number =Math.round(Math.random() * (camino.length - 1));
     if(number==0){
@@ -243,13 +293,15 @@ function crearposicionesaleatorias(){
   
   
   }
-  realizarsumatorias();
+  realizarsumatorias(q);
 }
 
 
   
 
-  function realizarsumatorias(){
+  function realizarsumatorias(q){
+    sumatorias=[]
+    arrayimprimir=undefined
     for(m=0;m<vueltas;m++){
       suma=0
       for(u=1;u<arrayubicacionesaleatorias[m].length ;u++){
@@ -266,152 +318,164 @@ function crearposicionesaleatorias(){
     minimo= Math.min(...sumatorias)
     busqueda= sumatorias.indexOf(minimo);
     arrayimprimir=arrayubicacionesaleatorias[busqueda]
-    ordenar();
+    ordenar(q);
 
   }
 
 
   
   
-  ordenar = ()=>{
+  ordenar = (q)=>{
+
+    if(arrayimprimir!= undefined){
+      console.log(arrayimprimir)
+      arrayimprimir.forEach(element => {
+      
+          if(element!=0){
+            // if(pedpendientes){
+            //   arreglo_final_mostrar.push(arreglopedidospendientes[element-1])
+            //   console.log(arreglopedidospendientes[element-1])
+      
+            // }else{
+              arreglo_final_mostrar.push(arraygeneral[q][element-1])
+              console.log(arraygeneral[q][element-1])
+            // }
+      
+      
+          }
+        });
+
+    }
+
+  // if(arreglopedidosaprobados.length>0){
+  //   arreglopedidosaprobados.forEach(elemento => {
+  //     arreglo_final_mostrar.push(elemento)
+  //   });
+  //   imprimir()
     
-    arrayimprimir.forEach(element => {
-    if(element!=0){
-      console.log("es el elemento"+element)
-      arreglo_final_mostrar.push(arreglo_pedidos[element-1])
-    } 
-  });
-
-
-  if(arreglopedidosaprobados.length>0){
-    arreglopedidosaprobados.forEach(elemento => {
-      arreglo_final_mostrar.push(elemento)
-    });
     
-    imprimirnuevamenteubicaciones()
-  }else{
+  // }else{
+  //   imprimirnuevamenteubicaciones()
+  // }
+  imprimirnuevamenteubicaciones()
 
-    imprimir()
-  }
 
   
 }
   
 
   
-  
-  function imprimir(){
-    for(i=0; i<arreglo_final_mostrar.length; i++){
-      let mar=L.marker([parseFloat(arreglo_final_mostrar[i].latitud), parseFloat(arreglo_final_mostrar[i].longitud)],{indice:i})
+  // function imprimir(){
+  //   for(i=0; i<arreglo_final_mostrar.length; i++){
+  //     let mar=L.marker([parseFloat(arreglo_final_mostrar[i].latitud), parseFloat(arreglo_final_mostrar[i].longitud)],{indice:i})
       
-      mar.bindTooltip(`${i+1}` , {
-      permanent: true,
-      direction: 'top',
-      className: "my-labels"
-      });
-      mar.addTo(map);
-      marcadores.push(mar);
-      marcadores[i].on('click', modifyText);
+  //     mar.bindTooltip(`${i+1}` , {
+  //     permanent: true,
+  //     direction: 'top',
+  //     className: "my-labels"
+  //     });
+  //     mar.addTo(map);
+  //     marcadores.push(mar);
+  //     marcadores[i].on('click', modifyText);
       
     
-    }
+  //   }
     
-  }
+  // }
 
+contador=0
+ind=0
 
   function imprimirnuevamenteubicaciones(){
+    contador++
+    numeroi=0
     for(i=0; i<arreglo_final_mostrar.length; i++){
-      let mar=L.marker([parseFloat(arreglo_final_mostrar[i].latitud), parseFloat(arreglo_final_mostrar[i].longitud)],{indice:i})
-      if(arreglo_final_mostrar[i].status!="Entregado"){
-        mar.bindTooltip(`${i+1}` , {
+      todospedidos.push(arreglo_final_mostrar[i])
+      let mar=L.marker([parseFloat(arreglo_final_mostrar[i].latitud), parseFloat(arreglo_final_mostrar[i].longitud)],{indice:ind})
+        mar.bindTooltip(`${numeroi+1}` , {
           permanent: true,
           direction: 'top',
-          className: "my-labels"
+          className: etiquetascss[contador]
           });
-
-      }else{
-        mar.bindTooltip(`` , {
-          permanent: true,
-          direction: 'top',
-          className: "my-labels"
-          });
-
-      }
 
       mar.addTo(map);
       marcadores.push(mar);
-      marcadores[i].on('click', modifyText);
+      marcadores[ind].on('click', modifyText);
+      ind++
+      numeroi++  
+    }
+
+
+    
+    
+    
+    
+  }
+
+  function imprimirentregados(){
+    for(l=0; l<arrayentregados.length; l++){
+      let mar=L.marker([parseFloat(arrayentregados[l].latitud), parseFloat(arrayentregados[l].longitud)],{indic:l})
+      mar.bindTooltip(`` , {
+        permanent: true,
+        direction: 'top',
+        className: "my-labels"
+        });
+      mar.addTo(map);
+      marcadoresentregados.push(mar);
+      marcadoresentregados[l].on('click', modifyTextEntregados);
       
     
     }
-    
-  }
 
-  
-    
-  
-  
-  
-  
-  function recorridopedidospendientes(){
-    for(cv=0; cv<marcadores.length; cv++){
-      map.removeLayer(marcadores[cv]);
-    }
-    arreglo_final_mostrar=[]
-    ubicaciones=[[-2.250408, -79.881556]]   
-    camino=[0]                          
-    distancias=[]                      
-    arrayubicacionesaleatorias=[]      
-    sumatorias=[]
-    arreglopedidosaprobados=[]
-    marcadores=[]
-
-    for(q=0; q<arreglo_pedidos.length; q++){
-      if(arreglo_pedidos[q].status=="Entregado"){
-        arreglopedidosaprobados.push(arreglo_pedidos[q])
-      }else{
-        camino.push(q+1);
-        ubicaciones.push([arreglo_pedidos[q].latitud,arreglo_pedidos[q].longitud])
-      }
-
-    }
-    obtenerdistancias()
-    
 
   }
   
   
+  // function recorridopedidospendientes(){
+  //   pedpendientes=true;
+  //   for(cv=0; cv<marcadores.length; cv++){
+  //     map.removeLayer(marcadores[cv]);
+  //   }
+  //   arreglo_final_mostrar=[]
+  //   ubicaciones=[[-2.250408, -79.881556]]   
+  //   camino=[0]                          
+  //   distancias=[]                      
+  //   arrayubicacionesaleatorias=[]      
+  //   sumatorias=[]
+  //   arreglopedidosaprobados=[]
+  //   marcadores=[]
+  //   arreglopedidospendientes=[]
+
+  //   for(q=0; q<arreglo_pedidos.length; q++){
+  //     if(arreglo_pedidos[q].status=="Entregado"){
+  //       arreglopedidosaprobados.push(arreglo_pedidos[q])
+  //     }else{
+  //       camino.push(q+1);
+  //       ubicaciones.push([arreglo_pedidos[q].latitud,arreglo_pedidos[q].longitud])
+  //       arreglopedidospendientes.push(arreglo_pedidos[q])
+
+  //     }
+
+  //   }
+  //   obtenerdistancias()
+    
+
+  // }
   
   
   
-  
-  
-  
-  
-  $(".loca").click(function () { //user clicks button
-    recorridopedidospendientes()
+  // $(".loca").click(function () { //user clicks button
+  //   recorridopedidospendientes()
 
 
-  });
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  // });
   
   
   
   
   function abrirModal(pedido,x,subtotal)
   {
-      console.log("pedido en el modal",pedido)
       document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
-  
       document.querySelector('#titleModal').innerHTML = "Detalles Pedido";
       document.querySelector('.cliente').innerText= pedido.nombres+" "+pedido.apellidos;
       document.querySelector('.fecha').innerText= pedido.fecha;
@@ -420,20 +484,17 @@ function crearposicionesaleatorias(){
       document.querySelector('.estado').innerText= pedido.status;
       document.querySelector('.total').innerText= `$${pedido.monto}`;
       document.querySelector('.subtotal').innerText= `$${subtotal}`;
+      document.querySelector('.va_envio').innerText=""
+      document.querySelector('.va_envio').innerText= `$${pedido.costo_envio}`;
       document.getElementById('productos').innerHTML=""
       document.getElementById('productos').innerHTML=x
       if(pedido.status=="Pendiente"){
         document.querySelector('.estado').style.color= '#F04F49';
       }else{
         document.querySelector('.estado').style.color= '#008882';
-  
       }
   
-  
       $('#modalDDistribucion').modal('show');
-  
   }
-  
-  
   
   });
